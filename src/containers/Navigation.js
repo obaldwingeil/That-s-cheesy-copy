@@ -6,6 +6,7 @@ export default function Navigation() {
         <div className="nav">
             <a href="/">Home</a>
             <a href="/login">Log In</a>
+            <a href="/addrecipe">Add Recipe</a>
         </div>
     );
 }

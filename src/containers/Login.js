@@ -19,14 +19,12 @@ export default function Login() {
           <FormGroup className="login-input"> 
             <Input
               type="text"
-              id="game-min-rating-input"
+              id="login-input"
               placeholder="Password"
             />
           </FormGroup>
         </Form>
-        <Button
-            className="Login"
-        >
+        <Button className="Login">
           Login
         </Button>
       </div>
