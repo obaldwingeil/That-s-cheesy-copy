@@ -11,6 +11,14 @@ export default function Home() {
       <a href="/lasagna">Cheesy Lasagna</a>
       <br></br>
       <a href="/mac">Mac 'n Cheese</a>
+      <h3>All Recipes:</h3>
+      <a href="/grilledcheese">Grilled Cheese</a>
+      <br></br>
+      <a href="/lasagna">Cheesy Lasagna</a>
+      <br></br>
+      <a href="/philly">Philly Cheesesteak</a>
+      <br></br>
+      <a href="/mac">Mac 'n Cheese</a>
     </div>
   );
 }
