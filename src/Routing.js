@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from "./containers/Home";
 import Login from "./containers/Login";
 import Navigation from "./containers/Navigation";
+import RecipeFull from "./containers/RecipeFull";
 
 export default function Routing() {
     return (
@@ -11,6 +12,7 @@ export default function Routing() {
             <Routes>
                 <Route path='/' element={<Home/>} />
                 <Route path='/login' element={<Login/>} />
+                <Route path='/recipe' element={<RecipeFull/>} />
             </Routes>
         </BrowserRouter>
     );
