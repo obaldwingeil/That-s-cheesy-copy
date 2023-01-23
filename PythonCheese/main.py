@@ -1,13 +1,20 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request 
 from flask_pymongo import PyMongo
+from pymongo import MongoClient
 from bson.objectid import ObjectId
+from bson.json_util import dumps
 
-# These dependecies allow us to create the basic structure of our Flask application and connect to MongoDB
+
+# These dependecies alpip3 low us to create the basic structure of our Flask application and connect to MongoDB
 app = Flask(__name__)  # Create the Flask application
 # Connect to MongoDB
-app.config["MONGO_URI"] = "mongodb://localhost:27017/recipes"
-mongo = PyMongo(app)  # Create a PyMongo object
+# app.config["MONGO_URI"] = "mongodb://localhost:27017/cheesydb"
+client = MongoClient("mongodb+srv://Olivia:Cheesy123@cheesy.1pp17n9.mongodb.net/?retryWrites=true&w=majority")
+db = client.cheesydb
+collection = db.recipes
 
+# mongo = PyMongo()  # Create a PyMongo object
+# mongo.init_app(app)
 ### Recipe class that uses ObjectId as its primary key: ###
 
 
@@ -23,8 +30,14 @@ class Recipe:
 # Set up to create API endpoints for our Flask application
 ### Recipes ###
 
+@app.route('/recipes', methods=['GET'])
+def get_recipes():
+    recipes = collection.find()
+    recipes_list = list(recipes)
+    print(recipes_list)
+    return dumps(recipes_list)
 
-@app.route("/recipes", methods=["GET"])
+
 @app.route('/recipe', methods=['POST'])
 def add_recipe():
     recipe = request.json
@@ -51,3 +64,7 @@ def update_recipe(id):
 def delete_recipe(id):
     mongo.db.recipes.delete_one({'_id': ObjectId(id)})
     return jsonify({'message': 'Recipe deleted successfully'}), 200
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
