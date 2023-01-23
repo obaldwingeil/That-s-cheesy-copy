@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request 
 from flask_pymongo import PyMongo
+from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson.json_util import dumps
@@ -7,11 +8,13 @@ from bson.json_util import dumps
 
 # These dependecies alpip3 low us to create the basic structure of our Flask application and connect to MongoDB
 app = Flask(__name__)  # Create the Flask application
+CORS(app)
 # Connect to MongoDB
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/cheesydb"
 client = MongoClient("mongodb+srv://Olivia:Cheesy123@cheesy.1pp17n9.mongodb.net/?retryWrites=true&w=majority")
 db = client.cheesydb
-collection = db.recipes
+recipes_collection = db.recipes
+user_collection = db.login
 
 # mongo = PyMongo()  # Create a PyMongo object
 # mongo.init_app(app)
@@ -32,9 +35,8 @@ class Recipe:
 
 @app.route('/recipes', methods=['GET'])
 def get_recipes():
-    recipes = collection.find()
+    recipes = recipes_collection.find()
     recipes_list = list(recipes)
-    print(recipes_list)
     return dumps(recipes_list)
 
 

@@ -19,7 +19,7 @@ class RecipeFull extends Component {
     _getRecipe() {
         // const id = this.state.recipe_id;
         // hard coding the id for now, needs to be updated 
-        fetch('mongodb://localhost:27017/recipes/recipe/63c89100b1cd9206c4989fb8', {
+        fetch('http://127.0.0.1:5000/recipes', {
             method: 'GET'
         })  
         .then((response) => response.json())
