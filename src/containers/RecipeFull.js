@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../css/RecipeFull.css";
-import { useSearchParams } from "react-router-dom";
+import withRouter from "./WithRouter";
 
 class RecipeFull extends Component {
 
@@ -17,23 +17,21 @@ class RecipeFull extends Component {
     }
 
     componentDidMount() {
-        this._getRecipe();
-        const [searchParams] = useSearchParams();
-        const id = searchParams.id;
-        console.log(id);
+        const id = this.props.router.params.id;
         this.setState({
             recipe_id: id
-        })
+        });
+        this._getRecipe(id);
     }
 
-    _getRecipe() {
-        const id = this.state.recipe_id;
+    _getRecipe(id) {
+        // console.log(`http://127.0.0.1:5000/recipe/${id}`);
         fetch(`http://127.0.0.1:5000/recipe/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
         .then((data) => {
-            console.log('Successs:', data);
+            // console.log('Successs:', data);
             const ingredients = data.ingredients;
             const instructions = data.instructions;
             const title = data.title;
@@ -77,4 +75,4 @@ class RecipeFull extends Component {
         )
     }
 
-} export default RecipeFull;
+} export default withRouter(RecipeFull);
