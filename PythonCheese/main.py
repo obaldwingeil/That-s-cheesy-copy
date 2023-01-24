@@ -38,7 +38,7 @@ class Recipe:
 def get_recipes():
     recipes = recipes_collection.find()
     recipes_list = list(recipes)
-    return dumps(recipes_list)
+    return dumps(recipes_list), 200
 
 
 @app.route('/recipe', methods=['POST'])
@@ -51,7 +51,8 @@ def add_recipe():
 @app.route('/recipe/<id>', methods=['GET'])
 def get_recipe(id):
     recipe = recipes_collection.find_one({'_id': ObjectId(id)})
-    return dumps(recipe), 200
+    recipe_obj = dict(recipe)
+    return dumps(recipe_obj), 200
 
 
 @app.route('/recipe/<id>', methods=['PUT'])
@@ -66,14 +67,16 @@ def delete_recipe(id):
     recipes_collection.delete_one({'_id': ObjectId(id)})
     return dumps({'message': 'Recipe deleted successfully'}), 200
 
+
 @app.route('/favorites/<user_id>', methods=['GET'])
 def get_favorites(user_id):
     user = user_collection.find_one({'_id': ObjectId(user_id)})
     favorites = user['saved']
     res = []
     for recipe in favorites:
-        res.append(loads(get_recipe(recipe)))
+        res.append(loads(get_recipe(recipe)[0]))
     return dumps(res)
+
 
 @app.route('/notes/<user_id>/<recipe_id>', methods=['GET'])
 def get_notes(user_id, recipe_id):
