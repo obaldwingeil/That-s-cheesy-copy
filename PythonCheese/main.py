@@ -11,13 +11,14 @@ app = Flask(__name__)  # Create the Flask application
 CORS(app)
 # Connect to MongoDB
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/cheesydb"
-client = MongoClient("mongodb+srv://Olivia:Cheesy123@cheesy.1pp17n9.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient(
+    "mongodb+srv://Armando:Cheesy123@cheesy.1pp17n9.mongodb.net/?retryWrites=true&w=majority")
 db = client.cheesydb
 recipes_collection = db.recipes
 user_collection = db.login
 
 # mongo = PyMongo()  # Create a PyMongo object
-# mongo.init_app(app)
+# mongo.init_app(app) // Initialize the PyMongo object with the Flask application
 ### Recipe class that uses ObjectId as its primary key: ###
 
 
@@ -43,30 +44,27 @@ def get_recipes():
 @app.route('/recipe', methods=['POST'])
 def add_recipe():
     recipe = request.json
-    mongo.db.recipes.insert_one(recipe)
-    return jsonify({'message': 'Recipe created successfully'}), 201
-
-# Endpoints for getting all recipes, updating a recipe, and deleting a recipe
+    recipes_collection.insert_one(recipe)
+    return dumps({'message': 'Recipe added successfully'}), 201
 
 
 @app.route('/recipe/<id>', methods=['GET'])
 def get_recipe(id):
     recipe = recipes_collection.find_one({'_id': ObjectId(id)})
-    recipe_list = dict(recipe)
-    return dumps(recipe_list)
+    return dumps(recipe), 200
 
 
 @app.route('/recipe/<id>', methods=['PUT'])
 def update_recipe(id):
     recipe = request.json
-    mongo.db.recipes.update_one({'_id': ObjectId(id)}, {'$set': recipe})
-    return jsonify({'message': 'Recipe updated successfully'}), 200
+    recipes_collection.update_one({'_id': ObjectId(id)}, {'$set': recipe})
+    return dumps({'message': 'Recipe updated successfully'}), 200
 
 
 @app.route('/recipe/<id>', methods=['DELETE'])
 def delete_recipe(id):
-    mongo.db.recipes.delete_one({'_id': ObjectId(id)})
-    return jsonify({'message': 'Recipe deleted successfully'}), 200
+    recipes_collection.delete_one({'_id': ObjectId(id)})
+    return dumps({'message': 'Recipe deleted successfully'}), 200
 
 @app.route('/favorites/<user_id>', methods=['GET'])
 def get_favorites(user_id):
