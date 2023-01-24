@@ -77,6 +77,16 @@ def get_favorites(user_id):
         res.append(loads(get_recipe(recipe)))
     return dumps(res)
 
+@app.route('/notes/<user_id>/<recipe_id>', methods=['GET'])
+def get_notes(user_id, recipe_id):
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+    notes = user['notes']
+    res = "No Notes Yet!"
+    for note in notes:
+        if recipe_id in note:
+            res = note[recipe_id]
+    return dumps(res)
+
 if __name__ == "__main__":
     app.run(debug=True)
 

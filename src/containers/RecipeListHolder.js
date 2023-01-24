@@ -29,7 +29,7 @@ class RecipeListHolder extends Component {
         })  
         .then((response) => response.json())
         .then((data) => {
-            console.log('Successs:', data);
+            // console.log('Successs:', data);
             this.setState({
                 recipes: data
             })

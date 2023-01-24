@@ -10,7 +10,8 @@ class RecipeFull extends Component {
             recipe_id: "",
             title: "",
             ingredients: [],
-            instructions: []
+            instructions: [],
+            notes: ""
         }
         this._getRecipe = this._getRecipe.bind(this);
         
@@ -22,6 +23,7 @@ class RecipeFull extends Component {
             recipe_id: id
         });
         this._getRecipe(id);
+        this._getNotes(id);
     }
 
     _getRecipe(id) {
@@ -39,6 +41,23 @@ class RecipeFull extends Component {
                 ingredients: ingredients,
                 instructions: instructions,
                 title: title
+            });
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    _getNotes(id) {
+        const user_id = "63c89100b1cd9206c4989fb8" // temporary will change with real user id
+        fetch(`http://127.0.0.1:5000/notes/${user_id}/${id}`, {
+            method: 'GET'
+        })  
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log('Successs:', data);
+            this.setState({
+                notes: data
             });
         })
         .catch((error) => {
@@ -70,6 +89,7 @@ class RecipeFull extends Component {
                 </div>
                 <div className="note_container">
                     <h3 className="note_title">Notes</h3>
+                    {this.state.notes}
                 </div>
             </div>
         )
