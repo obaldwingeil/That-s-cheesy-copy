@@ -51,8 +51,10 @@ def add_recipe():
 
 @app.route('/recipe/<id>', methods=['GET'])
 def get_recipe(id):
-    recipe = mongo.db.recipes.find_one({'_id': ObjectId(id)})
-    return jsonify(recipe), 200
+    recipe = recipes_collection.find_one({'_id': ObjectId(id)})
+    recipe_list = dict(recipe)
+    print(recipe_list)
+    return dumps(recipe_list)
 
 
 @app.route('/recipe/<id>', methods=['PUT'])

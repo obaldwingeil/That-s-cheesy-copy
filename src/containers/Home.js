@@ -2,11 +2,13 @@ import React from "react";
 import "../css/Home.css";
 
 export default function Home() {
+
+
   return (
     <div className="Home-Header">
       <h1>That's Cheesy <span>🧀</span></h1>
       <h3>Saved Recipes:</h3>
-      <a href="/recipe">Grilled Cheese</a>
+      <a href="/recipe/63c8916699dea043d8bb30a1">Grilled Cheese</a>
       <br></br>
       <a href="/lasagna">Cheesy Lasagna</a>
       <br></br>
