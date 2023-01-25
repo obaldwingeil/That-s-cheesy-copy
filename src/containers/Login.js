@@ -3,7 +3,7 @@ import "../css/Login.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";  
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ user_id, handleLogin }) {
   const [failedLogin, setFailedLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +24,7 @@ export default function Login() {
         if (data !== null) {
           console.log("correct user!");
           navigate(`/`, {state: {user_id: data._id.$oid}});
+          handleLogin(data._id.$oid);
           setFailedLogin(false);
         } else {
           console.log("incorrect")
