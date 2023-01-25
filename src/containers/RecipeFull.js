@@ -28,7 +28,7 @@ class RecipeFull extends Component {
             user_id: user_id
         });
         this._getRecipe(id);
-        if (user_id == "no user"){
+        if (user_id === "no user"){
             this.setState({
                 no_user: true
             });
@@ -102,6 +102,8 @@ class RecipeFull extends Component {
                     {this.state.no_user ? <div className="no_user"> 
                     <Link to="/login"> Log in </Link> to add notes! </div> : this.state.notes}
                 </div>
+                {/* temporary url */}
+                <a href="/recipe/edit/63d0700a7578b32a6468dfcc">Edit Recipe</a>
             </div>
         )
     }

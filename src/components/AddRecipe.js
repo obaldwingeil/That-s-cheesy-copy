@@ -31,7 +31,7 @@ export default function AddRecipe() {
   }
 
   function _updateInstructions() {
-    const new_instructions = instructions;
+    var new_instructions = instructions;
     new_instructions.push(instruction);
     setInstructions(new_instructions);
     console.log(new_instructions);

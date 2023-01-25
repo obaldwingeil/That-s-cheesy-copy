@@ -49,12 +49,17 @@ def get_recipes():
     return dumps(recipes_list), 200
 
 
-@app.route('/recipe', methods=['POST'])
+@app.route('/addrecipe', methods=['POST'])
 def add_recipe():
     recipe = request.json
     recipes_collection.insert_one(recipe)
     return dumps({'message': 'Recipe added successfully'}), 201
 
+@app.route('/recipe/edit/<id>', methods=['POST'])
+def edit_recipe(id):
+    recipe = request.json
+    recipes_collection.update_one({'_id': ObjectId(id)}, {'$set': recipe})
+    return dumps({'message': 'Recipe updated successfully'}), 200
 
 @app.route('/recipe/<id>', methods=['GET'])
 def get_recipe(id):

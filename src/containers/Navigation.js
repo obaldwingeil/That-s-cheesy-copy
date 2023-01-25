@@ -9,7 +9,7 @@ export default function Navigation({ user_id }) {
                 <Link className="links" to="/">Home</Link>
             </div>
             <div className="nav-right">
-                {user_id == "no user" ? 
+                {user_id === "no user" ? 
                 <Link className="links" to="/login">Log In</Link> : 
                 <Link className="links" to="/logout">Log Out</Link>}
                 <Link className="links" to="/addrecipe">Add Recipe</Link>
