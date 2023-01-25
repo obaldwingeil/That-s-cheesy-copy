@@ -5,7 +5,7 @@ import { HomeContainer } from "./containers/HomeContainer";
 import { LoginContainer } from "./containers/LoginContainer";
 import { LogoutContainer } from "./containers/LogoutContainer";
 import { NavigationContainer } from "./containers/NavigationContainer";
-import RecipeFull from "./containers/RecipeFull";
+import { RecipeFullContainer } from "./containers/RecipeFullContainer";
 
 export default function Routing() {
     return (
@@ -16,7 +16,7 @@ export default function Routing() {
                 <Route path='/login' element={<LoginContainer/>} />
                 <Route path='/logout' element={<LogoutContainer/>} />
                 <Route path='/addrecipe' element={<AddRecipe/>} />
-                <Route path='/recipe/:id' element={<RecipeFull/>} />
+                <Route path='/recipe/:id' element={<RecipeFullContainer/>} />
             </Routes>
         </BrowserRouter>
     );

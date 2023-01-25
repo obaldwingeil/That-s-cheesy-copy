@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "../css/RecipeFull.css";
 import withRouter from "./WithRouter";
+import { Link } from 'react-router-dom';
 
 class RecipeFull extends Component {
 
@@ -12,7 +13,8 @@ class RecipeFull extends Component {
             ingredients: [],
             instructions: [],
             notes: "", 
-            user_id: ""
+            user_id: "",
+            no_user: false
         }
         this._getRecipe = this._getRecipe.bind(this);
         
@@ -20,13 +22,19 @@ class RecipeFull extends Component {
 
     componentDidMount() {
         const id = this.props.router.params.id;
-        const user_id = this.props.router.location.state.user_id;
+        const user_id = this.props.user_id;
         this.setState({
             recipe_id: id,
             user_id: user_id
         });
         this._getRecipe(id);
-        this._getNotes(user_id, id);
+        if (user_id == "no user"){
+            this.setState({
+                no_user: true
+            });
+        } else {
+            this._getNotes(user_id, id);
+        }
     }
 
     _getRecipe(id) {
@@ -91,7 +99,8 @@ class RecipeFull extends Component {
                 </div>
                 <div className="note_container">
                     <h3 className="note_title">Notes</h3>
-                    {this.state.notes}
+                    {this.state.no_user ? <div className="no_user"> 
+                    <Link to="/login"> Log in </Link> to add notes! </div> : this.state.notes}
                 </div>
             </div>
         )

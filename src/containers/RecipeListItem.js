@@ -7,7 +7,7 @@ export default function RecipeListItem({ id, title, ingredients, instructions, u
     const navigate = useNavigate();
     
     function handleClick() {
-        navigate(`/recipe/${id}`, {state: {user_id: user_id}});
+        navigate(`/recipe/${id}`);
     }
 
     return(
