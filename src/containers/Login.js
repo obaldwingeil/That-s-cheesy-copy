@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import "../css/Login.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";  
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ user_id, handleLogin }) {
   const [failedLogin, setFailedLogin] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  var trueUser = "";
-  var truePass = "";
+  const navigate = useNavigate();
 
   const login = async () => {
     fetch('http://127.0.0.1:5000/login', {
-        method: 'GET'
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username: username, password: password})
     })
     .then((response) => response.json())
     .then((data) => {
-        console.log('Success:', data[0].username);
-        trueUser = data[0].username;
-        truePass = data[0].password;
-        if (trueUser === username && truePass === password) {
+        // console.log('Success:', data);
+        if (data !== null) {
           console.log("correct user!");
-          window.location.href='/';
+          navigate(`/`, {state: {user_id: data._id.$oid}});
+          handleLogin(data._id.$oid);
           setFailedLogin(false);
         } else {
           console.log("incorrect")

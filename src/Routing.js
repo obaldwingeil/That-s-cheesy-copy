@@ -6,17 +6,24 @@ import Login from "./containers/Login";
 import Navigation from "./containers/Navigation";
 import RecipeFull from "./containers/RecipeFull";
 import EditRecipe from "./components/EditRecipe";
+import { HomeContainer } from "./containers/HomeContainer";
+import { LoginContainer } from "./containers/LoginContainer";
+import { LogoutContainer } from "./containers/LogoutContainer";
+import { NavigationContainer } from "./containers/NavigationContainer";
+import { RecipeFullContainer } from "./containers/RecipeFullContainer";
 
 export default function Routing() {
     return (
         <BrowserRouter>
-            <Navigation></Navigation>
+            <NavigationContainer></NavigationContainer>
             <Routes>
-                <Route path='/' element={<Home/>} />
-                <Route path='/login' element={<Login/>} />
+                <Route path='/' element={<HomeContainer/>} />
+                <Route path='/login' element={<LoginContainer/>} />
+                <Route path='/logout' element={<LogoutContainer/>} />
                 <Route path='/addrecipe' element={<AddRecipe/>} />
                 <Route path='/recipe/edit/:id' element={<EditRecipe/>} />
                 <Route path='/recipe/:id' element={<RecipeFull/>} />
+                <Route path='/recipe/:id' element={<RecipeFullContainer/>} />
             </Routes>
         </BrowserRouter>
     );
