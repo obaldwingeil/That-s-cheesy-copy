@@ -5,11 +5,11 @@ export default function Navigation() {
     return (
         <div className="nav">
             <div className="nav-left">
-                <a class="links" href="/">Home</a>
+                <a className="links" href="/">Home</a>
             </div>
             <div className="nav-right">
-                <a class="links" href="/login">Log In</a>
-                <a class="links" href="/addrecipe">Add Recipe</a>
+                <a className="links" href="/login">Log In</a>
+                <a className="links" href="/addrecipe">Add Recipe</a>
             </div>
         </div>
     );

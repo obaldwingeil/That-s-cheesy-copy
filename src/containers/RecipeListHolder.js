@@ -7,15 +7,18 @@ class RecipeListHolder extends Component {
     constructor(){
         super();
         this.state = {
-            recipes: []
+            recipes: [],
+            user_id: ""
         }
         this._getRecipes = this._getRecipes.bind(this);
     }
 
     componentDidMount(){
         const saved = this.props.saved;
-        //temp
-        const user_id = "63c89100b1cd9206c4989fb8";
+        const user_id = this.props.user_id;
+        this.setState({
+            user_id: user_id
+        })
         if (saved){
             this._getRecipes(`http://127.0.0.1:5000/favorites/${user_id}`);
         } else {
@@ -42,13 +45,19 @@ class RecipeListHolder extends Component {
     render(){
         const recipe_list = this.state.recipes.map(recipe => {
             return (
-                <RecipeListItem id={recipe._id.$oid} title={recipe.title} ingredients={recipe.ingredients} instructions={recipe.instructions}/>
+                <RecipeListItem 
+                    id={recipe._id.$oid} title={recipe.title} 
+                    ingredients={recipe.ingredients} 
+                    instructions={recipe.instructions}
+                    user_id={this.state.user_id}
+                />
             )
         })
 
         return(
             <div className="RecipeListHolder">
-                {recipe_list}
+                {recipe_list.length !== 0 ? recipe_list : 
+                <div className="noRecipes"> No Recipes Yet! </div>}
             </div>
         )
     }

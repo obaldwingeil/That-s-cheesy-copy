@@ -11,7 +11,8 @@ class RecipeFull extends Component {
             title: "",
             ingredients: [],
             instructions: [],
-            notes: ""
+            notes: "", 
+            user_id: ""
         }
         this._getRecipe = this._getRecipe.bind(this);
         
@@ -19,11 +20,13 @@ class RecipeFull extends Component {
 
     componentDidMount() {
         const id = this.props.router.params.id;
+        const user_id = this.props.router.location.state.user_id;
         this.setState({
-            recipe_id: id
+            recipe_id: id,
+            user_id: user_id
         });
         this._getRecipe(id);
-        this._getNotes(id);
+        this._getNotes(user_id, id);
     }
 
     _getRecipe(id) {
@@ -48,8 +51,7 @@ class RecipeFull extends Component {
         });
     }
 
-    _getNotes(id) {
-        const user_id = "63c89100b1cd9206c4989fb8" // temporary will change with real user id
+    _getNotes(user_id, id) {
         fetch(`http://127.0.0.1:5000/notes/${user_id}/${id}`, {
             method: 'GET'
         })  

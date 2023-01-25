@@ -72,11 +72,11 @@ def delete_recipe(id):
 
 ### User ###
 
-@app.route('/login', methods=['GET'])
-def get_users():
-    users = user_collection.find()
-    users_list = list(users)
-    return dumps(users_list)
+@app.route('/login', methods=['POST'])
+def get_users(): 
+    login = request.json
+    users = user_collection.find_one({ '$and': [{'username': login['username']}, {'password': login['password']}] })
+    return dumps(users) # returns null if username and password do not match any records
 
 
 @app.route('/favorites/<user_id>', methods=['GET'])
@@ -85,7 +85,8 @@ def get_favorites(user_id):
     favorites = user['saved']
     res = []
     for recipe in favorites:
-        res.append(loads(get_recipe(recipe)[0]))
+        if recipe is not "":
+            res.append(loads(get_recipe(recipe)[0]))
     return dumps(res)
 
 
