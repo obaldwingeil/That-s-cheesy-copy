@@ -1,15 +1,18 @@
 import React from "react";
 import "../css/Navigation.css"
+import { Link } from 'react-router-dom';
 
-export default function Navigation() {
+export default function Navigation({ user_id }) {
     return (
         <div className="nav">
             <div className="nav-left">
-                <a className="links" href="/">Home</a>
+                <Link className="links" to="/">Home</Link>
             </div>
             <div className="nav-right">
-                <a className="links" href="/login">Log In</a>
-                <a className="links" href="/addrecipe">Add Recipe</a>
+                {user_id == "no user" ? 
+                <Link className="links" to="/login">Log In</Link> : 
+                <Link className="links" to="/logout">Log Out</Link>}
+                <Link className="links" to="/addrecipe">Add Recipe</Link>
             </div>
         </div>
     );

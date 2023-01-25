@@ -77,7 +77,6 @@ def delete_recipe(id):
 
 ### Favorite Recipes Endpoints ###
 
-
 @app.route('/favorite-recipe', methods=['POST'])
 def add_favorite_recipe():
     recipe = request.json
@@ -108,7 +107,7 @@ def get_favorites(user_id):
     favorites = user['saved']
     res = []
     for recipe in favorites:
-        if recipe is not "":
+        if recipe != "":
             res.append(loads(get_recipe(recipe)[0]))
     return dumps(res)
 

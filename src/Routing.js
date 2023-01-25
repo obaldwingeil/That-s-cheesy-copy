@@ -1,18 +1,20 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AddRecipe from "./components/AddRecipe";
-import Home from "./containers/Home";
+import { HomeContainer } from "./containers/HomeContainer";
 import { LoginContainer } from "./containers/LoginContainer";
-import Navigation from "./containers/Navigation";
+import { LogoutContainer } from "./containers/LogoutContainer";
+import { NavigationContainer } from "./containers/NavigationContainer";
 import RecipeFull from "./containers/RecipeFull";
 
 export default function Routing() {
     return (
         <BrowserRouter>
-            <Navigation></Navigation>
+            <NavigationContainer></NavigationContainer>
             <Routes>
-                <Route path='/' element={<Home/>} />
+                <Route path='/' element={<HomeContainer/>} />
                 <Route path='/login' element={<LoginContainer/>} />
+                <Route path='/logout' element={<LogoutContainer/>} />
                 <Route path='/addrecipe' element={<AddRecipe/>} />
                 <Route path='/recipe/:id' element={<RecipeFull/>} />
             </Routes>
