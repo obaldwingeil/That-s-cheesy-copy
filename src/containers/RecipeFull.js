@@ -12,6 +12,7 @@ class RecipeFull extends Component {
             title: "",
             ingredients: [],
             instructions: [],
+            image: null,
             notes: "", 
             user_id: "",
             no_user: false
@@ -48,10 +49,12 @@ class RecipeFull extends Component {
             const ingredients = data.ingredients;
             const instructions = data.instructions;
             const title = data.title;
+            const image = data.image;
             this.setState({
                 ingredients: ingredients,
                 instructions: instructions,
-                title: title
+                title: title,
+                image: image
             });
         })
         .catch((error) => {
@@ -88,6 +91,10 @@ class RecipeFull extends Component {
             <div className="recipe_full_container">
                 <div className="title_container">
                     <h1 className="title">{this.state.title}</h1>
+                </div>
+                <div className="image_container">
+                    <h3></h3>
+                    <img width="400" src={this.state.image} />
                 </div>
                 <div className="ingredient_container">
                     <h3 className="ingredient_title">Ingredients</h3>
