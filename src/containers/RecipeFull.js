@@ -71,6 +71,8 @@ class RecipeFull extends Component {
                 <div className="note_container">
                     <h3 className="note_title">Notes</h3>
                 </div>
+                {/* temporary url */}
+                <a href="/recipe/edit/63d0700a7578b32a6468dfcc">Edit Recipe</a>
             </div>
         )
     }
