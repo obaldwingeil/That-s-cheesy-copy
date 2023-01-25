@@ -78,16 +78,6 @@ def get_users():
     users_list = list(users)
     return dumps(users_list)
 
-@app.route('/favorites/<user_id>', methods=['GET'])
-def get_favorites(user_id):
-    user = user_collection.find_one({'_id': ObjectId(user_id)})
-    favorites = user['saved']
-    res = []
-    for recipe in favorites:
-        res.append(loads(get_recipe(recipe)))
-    return dumps(res)
-
-### Run backend ###
 
 @app.route('/favorites/<user_id>', methods=['GET'])
 def get_favorites(user_id):
