@@ -3,8 +3,7 @@ from flask_pymongo import PyMongo
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from bson.json_util import dumps
-
+from bson.json_util import dumps, loads
 
 # These dependecies alpip3 low us to create the basic structure of our Flask application and connect to MongoDB
 app = Flask(__name__)  # Create the Flask application
@@ -45,7 +44,7 @@ def get_recipes():
     return dumps(recipes_list)
 
 
-@app.route('/recipe', methods=['POST'])
+@app.route('/addrecipe', methods=['POST'])
 def add_recipe():
     recipe = request.json
     recipes_collection.insert_one(recipe)
@@ -55,7 +54,9 @@ def add_recipe():
 @app.route('/recipe/<id>', methods=['GET'])
 def get_recipe(id):
     recipe = recipes_collection.find_one({'_id': ObjectId(id)})
-    return dumps(recipe), 200
+    recipe_list = dict(recipe)
+    print(recipe_list)
+    return dumps(recipe_list)
 
 
 @app.route('/recipe/<id>', methods=['PUT'])
@@ -77,6 +78,15 @@ def get_users():
     users = user_collection.find()
     users_list = list(users)
     return dumps(users_list)
+
+@app.route('/favorites/<user_id>', methods=['GET'])
+def get_favorites(user_id):
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+    favorites = user['saved']
+    res = []
+    for recipe in favorites:
+        res.append(loads(get_recipe(recipe)))
+    return dumps(res)
 
 ### Run backend ###
 

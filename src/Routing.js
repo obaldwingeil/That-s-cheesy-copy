@@ -14,7 +14,7 @@ export default function Routing() {
                 <Route path='/' element={<Home/>} />
                 <Route path='/login' element={<Login/>} />
                 <Route path='/addrecipe' element={<AddRecipe/>} />
-                <Route path='/recipe' element={<RecipeFull/>} />
+                <Route path='/recipe/:id' element={<RecipeFull/>} />
             </Routes>
         </BrowserRouter>
     );
