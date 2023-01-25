@@ -28,7 +28,7 @@ class RecipeFull extends Component {
             user_id: user_id
         });
         this._getRecipe(id);
-        if (user_id == "no user"){
+        if (user_id === "no user"){
             this.setState({
                 no_user: true
             });

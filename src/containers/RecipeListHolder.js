@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../css/RecipeFull.css";
+import { Link } from 'react-router-dom';
 import RecipeListItem from "./RecipeListItem";
 
 class RecipeListHolder extends Component {
@@ -21,7 +22,7 @@ class RecipeListHolder extends Component {
             user_id: user_id
         })
         if (saved){
-            if (user_id == "no user"){
+            if (user_id === "no user"){
                 this.setState({
                     no_user: true
                 });
@@ -66,7 +67,7 @@ class RecipeListHolder extends Component {
                 {recipe_list.length !== 0 ? recipe_list : 
                 <div className="noRecipes"> No Recipes Yet! </div>}
                 {this.state.no_user ? <div className="loginMessage">
-                    Log in to save your favorites!
+                    <Link to="/login">Log in</Link> to save your favorites!
                     </div> : <div/>}
             </div>
         )
