@@ -49,7 +49,7 @@ def get_recipes():
     return dumps(recipes_list), 200
 
 
-@app.route('/recipe', methods=['POST'])
+@app.route('/addrecipe', methods=['POST'])
 def add_recipe():
     recipe = request.json
     recipes_collection.insert_one(recipe)
