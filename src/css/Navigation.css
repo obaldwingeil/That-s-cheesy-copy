@@ -1,0 +1,20 @@
+.nav {
+    display: flex;
+    top: 0;
+    width: 100%;
+    overflow: auto;
+    height: auto;
+}
+
+.links {
+    display: inline-block;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+}
+
+.links:hover {
+    border-bottom: 2px solid black;
+}

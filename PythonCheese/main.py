@@ -1,26 +1,21 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request 
 from flask_pymongo import PyMongo
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from bson.json_util import dumps
-
+from bson.json_util import dumps, loads
 
 # These dependecies alpip3 low us to create the basic structure of our Flask application and connect to MongoDB
 app = Flask(__name__)  # Create the Flask application
 CORS(app)
 # Connect to MongoDB
 # app.config["MONGO_URI"] = "mongodb://localhost:27017/cheesydb"
-client = MongoClient(
-    "mongodb+srv://Armando:Cheesy123@cheesy.1pp17n9.mongodb.net/?retryWrites=true&w=majority")
+client = MongoClient("mongodb+srv://Olivia:Cheesy123@cheesy.1pp17n9.mongodb.net/?retryWrites=true&w=majority")
 db = client.cheesydb
 recipes_collection = db.recipes
 user_collection = db.login
 
-# mongo = PyMongo()  # Create a PyMongo object
-# mongo.init_app(app) // Initialize the PyMongo object with the Flask application
 ### Recipe class that uses ObjectId as its primary key: ###
-
 
 class Recipe:
     def __init__(self, title, ingredients, instructions, personal_notes=None, image=None, _id=None):
@@ -31,9 +26,16 @@ class Recipe:
         self.image = image
         self._id = ObjectId() if _id is None else _id
 
+### User class ###
+
+class User:
+    def __init__(self, username, password, _id=None):
+        self.username = username
+        self.password = password
+        self._id = ObjectId() if _id is None else _id
+
 # Set up to create API endpoints for our Flask application
 ### Recipes ###
-
 
 @app.route('/recipes', methods=['GET'])
 def get_recipes():
@@ -42,7 +44,7 @@ def get_recipes():
     return dumps(recipes_list)
 
 
-@app.route('/recipe', methods=['POST'])
+@app.route('/addrecipe', methods=['POST'])
 def add_recipe():
     recipe = request.json
     recipes_collection.insert_one(recipe)
@@ -52,7 +54,9 @@ def add_recipe():
 @app.route('/recipe/<id>', methods=['GET'])
 def get_recipe(id):
     recipe = recipes_collection.find_one({'_id': ObjectId(id)})
-    return dumps(recipe), 200
+    recipe_list = dict(recipe)
+    print(recipe_list)
+    return dumps(recipe_list)
 
 
 @app.route('/recipe/<id>', methods=['PUT'])
@@ -67,6 +71,24 @@ def delete_recipe(id):
     recipes_collection.delete_one({'_id': ObjectId(id)})
     return dumps({'message': 'Recipe deleted successfully'}), 200
 
+### User ###
+
+@app.route('/login', methods=['GET'])
+def get_users():
+    users = user_collection.find()
+    users_list = list(users)
+    return dumps(users_list)
+
+@app.route('/favorites/<user_id>', methods=['GET'])
+def get_favorites(user_id):
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+    favorites = user['saved']
+    res = []
+    for recipe in favorites:
+        res.append(loads(get_recipe(recipe)))
+    return dumps(res)
+
+### Run backend ###
 
 if __name__ == "__main__":
     app.run(debug=True)
