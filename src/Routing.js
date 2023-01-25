@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AddRecipe from "./components/AddRecipe";
 import Home from "./containers/Home";
 import Login from "./containers/Login";
 import Navigation from "./containers/Navigation";
@@ -12,7 +13,8 @@ export default function Routing() {
             <Routes>
                 <Route path='/' element={<Home/>} />
                 <Route path='/login' element={<Login/>} />
-                <Route path='/recipe/:id' element={<RecipeFull />} />
+                <Route path='/addrecipe' element={<AddRecipe/>} />
+                <Route path='/recipe/:id' element={<RecipeFull/>} />
             </Routes>
         </BrowserRouter>
     );
