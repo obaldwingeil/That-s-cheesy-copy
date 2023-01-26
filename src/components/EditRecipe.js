@@ -12,11 +12,13 @@ class EditRecipe extends Component {
             ingredient: "",
             instruction: "",
             ingredients: [],
-            instructions: []
+            instructions: [],
+            image: null
         }
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeIngredient = this.onChangeIngredient.bind(this);
         this.onChangeInstruction = this.onChangeInstruction.bind(this);
+        this.onChangeImage = this.onChangeImage.bind(this);
         this._updateIngredients = this._updateIngredients.bind(this);
         this._updateInstructions = this._updateInstructions.bind(this);
         this.editRecipe = this.editRecipe.bind(this);
@@ -33,9 +35,10 @@ class EditRecipe extends Component {
                 recipe_id: id,
                 title: data.title,
                 ingredients: data.ingredients,
-                instructions: data.instructions
+                instructions: data.instructions,
+                image: data.image
             });
-            console.log(id, data.title, data.ingredients, data.instructions)
+            console.log(id, data.title, data.ingredients, data.instructions, data.image)
         })
         .catch (function(error) {
             console.log(error)
@@ -54,6 +57,15 @@ class EditRecipe extends Component {
         this.setState({ instruction: e.target.value })
     }
 
+    onChangeImage(e) {
+        if (e.target.files && e.target.files[0]) {
+            let img = e.target.files[0];
+            this.setState({
+                image: URL.createObjectURL(img)
+            });
+        }
+    };
+
     editRecipe(id) {
         fetch(`http://127.0.0.1:5000/recipe/edit/${id}`, {
             method: 'POST',
@@ -61,7 +73,7 @@ class EditRecipe extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({title: this.state.title, ingredients: this.state.ingredients, instructions: this.state.instructions})
+            body: JSON.stringify({title: this.state.title, ingredients: this.state.ingredients, instructions: this.state.instructions, image: this.state.image})
         })
         .then (this.setState({ redirect: true}));
     }
@@ -105,6 +117,11 @@ class EditRecipe extends Component {
                             required
                             />
                         </FormGroup>
+                        <br></br>
+                        <img width="400" src={this.state.image} />
+                        <br></br>
+                        <h3>Select Image</h3>
+                        <input type="file" name="myImage" onChange={this.onChangeImage} />
                         <br></br>
                         {ingredient_map}
                         <br></br>

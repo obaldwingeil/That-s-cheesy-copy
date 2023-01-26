@@ -10,7 +10,7 @@ class RecipeListHolder extends Component {
         this.state = {
             recipes: [],
             user_id: "",
-            no_user: false
+            no_user: false,
         }
         this._getRecipes = this._getRecipes.bind(this);
     }
@@ -37,7 +37,7 @@ class RecipeListHolder extends Component {
     _getRecipes(url){
         fetch(url, {
             method: 'GET'
-        })  
+        })
         .then((response) => response.json())
         .then((data) => {
             // console.log('Successs:', data);
@@ -55,6 +55,7 @@ class RecipeListHolder extends Component {
             return (
                 <RecipeListItem 
                     id={recipe._id.$oid} title={recipe.title} 
+                    image={recipe.image}
                     ingredients={recipe.ingredients} 
                     instructions={recipe.instructions}
                     user_id={this.state.user_id}
