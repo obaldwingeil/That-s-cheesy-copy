@@ -89,12 +89,14 @@ class RecipeFull extends Component {
 
         return (
             <div className="recipe_full_container">
-                <div className="title_container">
-                    <h1 className="title">{this.state.title}</h1>
-                </div>
-                <div className="image_container">
-                    <h3></h3>
-                    <img width="400" src={this.state.image} />
+                <div className="title-image-recipe">
+                    <div className="title_container">
+                        <h1 className="title">{this.state.title}</h1>
+                    </div>
+                    <div className="image_container">
+                        <h3></h3>
+                        <img width="400" src={this.state.image} />
+                    </div>
                 </div>
                 <div className="ingredient_container">
                     <h3 className="ingredient_title">Ingredients</h3>
