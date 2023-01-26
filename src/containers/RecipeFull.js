@@ -13,6 +13,7 @@ class RecipeFull extends Component {
             title: "",
             ingredients: [],
             instructions: [],
+            image: null,
             notes: "", 
             user_id: "",
             no_user: false,
@@ -29,7 +30,7 @@ class RecipeFull extends Component {
             user_id: user_id
         });
         this._getRecipe(id);
-        if (user_id == "no user"){
+        if (user_id === "no user"){
             this.setState({
                 no_user: true
             });
@@ -49,10 +50,12 @@ class RecipeFull extends Component {
             const ingredients = data.ingredients;
             const instructions = data.instructions;
             const title = data.title;
+            const image = data.image;
             this.setState({
                 ingredients: ingredients,
                 instructions: instructions,
-                title: title
+                title: title,
+                image: image
             });
         })
         .catch((error) => {
@@ -91,6 +94,10 @@ class RecipeFull extends Component {
                     <h1 className="title">{this.state.title}</h1>
                     {this.state.no_user ? <div></div> : <Favorite user_id={this.state.user_id} recipe_id={this.state.recipe_id} />}
                 </div>
+                <div className="image_container">
+                    <h3></h3>
+                    <img width="400" src={this.state.image} />
+                </div>
                 <div className="ingredient_container">
                     <h3 className="ingredient_title">Ingredients</h3>
                     {ingredient_map}
@@ -104,6 +111,8 @@ class RecipeFull extends Component {
                     {this.state.no_user ? <div className="no_user"> 
                     <Link to="/login"> Log in </Link> to add notes! </div> : this.state.notes}
                 </div>
+                {/* temporary url */}
+                <a href="/recipe/edit/63d0700a7578b32a6468dfcc">Edit Recipe</a>
             </div>
         )
     }
