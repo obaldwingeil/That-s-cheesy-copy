@@ -107,10 +107,9 @@ class RecipeFull extends Component {
                 <div className="note_container">
                     <h3 className="note_title">Notes</h3>
                     {this.state.no_user ? <div className="no_user"> 
-                    <Link to="/login"> Log in </Link> to add notes! </div> : this.state.notes}
+                    <Link to="/login"> Log in</Link> to add notes! </div> : this.state.notes}
                 </div>
-                {/* temporary url */}
-                <a href="/recipe/edit/63d0700a7578b32a6468dfcc">Edit Recipe</a>
+                <Link to={`/recipe/edit/${this.state.recipe_id}`}> Edit Recipe</Link>
             </div>
         )
     }
