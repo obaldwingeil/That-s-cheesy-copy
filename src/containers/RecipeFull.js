@@ -3,6 +3,7 @@ import "../css/RecipeFull.css";
 import withRouter from "./WithRouter";
 import { Link } from 'react-router-dom';
 import Favorite from "./Favorite";
+import YoutubeEmbed from "../components/YoutubeEmbed";
 
 class RecipeFull extends Component {
 
@@ -14,6 +15,7 @@ class RecipeFull extends Component {
             ingredients: [],
             instructions: [],
             image: null,
+            embedId: "",
             notes: "", 
             user_id: "",
             no_user: false,
@@ -51,11 +53,13 @@ class RecipeFull extends Component {
             const instructions = data.instructions;
             const title = data.title;
             const image = data.image;
+            const embedId = data.embedId;
             this.setState({
                 ingredients: ingredients,
                 instructions: instructions,
                 title: title,
-                image: image
+                image: image,
+                embedId: embedId
             });
         })
         .catch((error) => {
@@ -97,6 +101,9 @@ class RecipeFull extends Component {
                 <div className="image_container">
                     <h3></h3>
                     <img width="400" src={this.state.image} />
+                </div>
+                <div className="youtube_embed_container">
+                    {this.state.embedId === "" ? <div/> : <YoutubeEmbed embedId={this.state.embedId} />}
                 </div>
                 <div className="ingredient_container">
                     <h3 className="ingredient_title">Ingredients</h3>
