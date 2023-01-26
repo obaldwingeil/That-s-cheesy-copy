@@ -94,11 +94,27 @@ class EditRecipe extends Component {
 
     render() {
         const ingredient_map = this.state.ingredients.map(i => {
-            return(<li className="ingredient">{i}</li>)
+            return(<div>
+                <li className="ingredient">{i}
+                <button onClick={() => {
+                    this.setState({ingredients:
+                    this.state.ingredients.filter(function(ing) {
+                        return ing !== i
+                    })});
+                }}>Delete</button></li>
+                </div>)
         })
 
         const instruction_map = this.state.instructions.map(i => {
-            return(<li className="instruction">{i}</li>)
+            return(<div>
+                <li className="instruction">{i}
+                <button onClick={() => {
+                    this.setState({instructions:
+                    this.state.instructions.filter(function(ins) {
+                        return ins !== i
+                    })});
+                }}>Delete</button></li>
+                </div>)
         })
 
         return (
@@ -114,7 +130,6 @@ class EditRecipe extends Component {
                             className="EditRecipe-input"
                             placeholder="Title"
                             onChange={this.onChangeTitle}
-                            required
                             />
                         </FormGroup>
                         <br></br>
@@ -132,7 +147,6 @@ class EditRecipe extends Component {
                             id="EditRecipe-input"
                             placeholder="Ingredient"
                             onChange={this.onChangeIngredient}
-                            required
                             />
                             <Button onClick={this._updateIngredients} className="UpdateIngredient">
                                 Update Ingredient
@@ -148,7 +162,6 @@ class EditRecipe extends Component {
                             id="EditRecipe-input"
                             placeholder="Instruction"
                             onChange={this.onChangeInstruction}
-                            required
                             />
                             <Button onClick={this._updateInstructions} className="UpdateInstruct">
                                 Update Instruction
