@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../css/AddRecipe.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";  
+import { useNavigate } from "react-router";
 
 export default function AddRecipe() {
   const [title, setTitle] = useState("");
@@ -9,6 +10,10 @@ export default function AddRecipe() {
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
   const [image, setImage] = useState([]);
+  const [embedId, setEmbedId] = useState("");
+  const [invalidURL, setInvalidURL] = useState(false);
+
+  const navigate = useNavigate();
 
   const addrecipe = async () => {
     const rawResponse = await fetch('http://127.0.0.1:5000/addrecipe', {
@@ -17,12 +22,23 @@ export default function AddRecipe() {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({title: title, ingredients: ingredients, instructions: instructions, image: image})
+      body: JSON.stringify({
+        title: title, 
+        ingredients: ingredients, 
+        instructions: instructions, 
+        image: image,
+        embedId: embedId
+      })
     });
     const content = await rawResponse.json();
-  
-    console.log(content);
+    // console.log(content);
+
+    navigate('/');
   };
+
+  const cancel = () => {
+    navigate('/');
+  }
 
   const onChangeImage = event => {
     if (event.target.files && event.target.files[0]) {
@@ -30,6 +46,22 @@ export default function AddRecipe() {
         setImage(
           URL.createObjectURL(img)
         );
+    }
+  }
+
+  function _getEmbedId(event) {
+    if (event === "") {
+      setEmbedId("");
+      setInvalidURL(false);
+    } else {
+      const regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/
+      const match = event.match(regExp);
+      if (match === null) {
+        setInvalidURL(true);
+      } else {
+        setEmbedId(match[1]);
+        setInvalidURL(false);
+      }
     }
   }
 
@@ -68,6 +100,20 @@ export default function AddRecipe() {
           <h3>Select Image</h3>
           <input type="file" name="myImage" onChange={onChangeImage} />
           <h3></h3>
+          <div className="youtubeInput container">
+            {invalidURL ? <div className="invalidURL">
+              Invalid URL
+            </div> : <div/>}
+            <FormGroup className="AddRecipe-input">
+              <Input
+                type="text"
+                defaultValue=""
+                id="AddYoutubeURL-input"
+                placeholder="Youtube URL"
+                onBlur={(e) => _getEmbedId(e.target.value)}
+              />
+            </FormGroup>
+          </div>
           <FormGroup className="AddRecipe-input"> 
             <Input
               type="text"
@@ -102,6 +148,9 @@ export default function AddRecipe() {
             />
           </FormGroup>
         </Form>
+        <Button className="cancel_button" onClick={cancel}>
+          Cancel
+        </Button>
         <Button onClick={addrecipe} className="AddRecipe">
           Add
         </Button>
