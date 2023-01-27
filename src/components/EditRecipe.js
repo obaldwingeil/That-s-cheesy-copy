@@ -186,7 +186,7 @@ class EditRecipe extends Component {
                     this.state.ingredients.filter(function(ing) {
                         return ing !== i
                     })});
-                }}>Delete</button></li>
+                }}>Delete Ingredient</button></li>
                 </div>)
         })
 
@@ -198,7 +198,7 @@ class EditRecipe extends Component {
                     this.state.instructions.filter(function(ins) {
                         return ins !== i
                     })});
-                }}>Delete</button></li>
+                }}>Delete Instruction</button></li>
                 </div>)
         })
 
@@ -237,7 +237,10 @@ class EditRecipe extends Component {
                             </FormGroup>
                         </div>
                         <br></br>
-                        {ingredient_map}
+                        <div className="ingredientDisplay">
+                            <h3>Ingredients</h3>
+                            {ingredient_map}
+                        </div>
                         <br></br>
                         <FormGroup className="EditRecipe-input"> 
                             <Input
@@ -248,11 +251,14 @@ class EditRecipe extends Component {
                             onChange={this.onChangeIngredient}
                             />
                             <Button onClick={this._updateIngredients} className="UpdateIngredient">
-                                Update Ingredient
+                                Add Ingredient
                             </Button>
                         </FormGroup>
                         <br></br>
-                        {instruction_map}
+                        <div className="instructionDisplay">
+                            <h3>Instructions</h3>
+                            {instruction_map}
+                        </div>
                         <br></br>
                         <FormGroup className="EditRecipe-input"> 
                             <Input
@@ -263,7 +269,7 @@ class EditRecipe extends Component {
                             onChange={this.onChangeInstruction}
                             />
                             <Button onClick={this._updateInstructions} className="UpdateInstruct">
-                                Update Instruction
+                                Add Instruction
                             </Button>
                         </FormGroup>
                         <br></br>

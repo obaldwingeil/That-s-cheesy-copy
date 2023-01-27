@@ -14,6 +14,8 @@ export default function AddRecipe({ user_id }) {
   const [invalidURL, setInvalidURL] = useState(false);
   const [note, setNote] = useState("");
   const [noUser, setNoUser] = useState(user_id === "no user");
+  const [ingredientMap, setIngredientMap] = useState([]);
+  const [instructionMap, setInstructionMap] = useState([]);
 
   const navigate = useNavigate();
 
@@ -73,17 +75,39 @@ export default function AddRecipe({ user_id }) {
     }
   }
 
-  function _updateIngredients() {
+  function _updateIngredients(add, toDelete) {
     var new_ingredients = ingredients;
-    new_ingredients.push(ingredient);
+    if (add) new_ingredients.push(ingredient);
+    else new_ingredients.splice(new_ingredients.indexOf(toDelete), 1);
     setIngredients(new_ingredients);
+    setIngredientMap(
+      new_ingredients.map(i => {
+        return(
+          <div>
+            <li className="ingredient">{i}
+            <button onClick={() => _updateIngredients(false, i)}>Delete Ingredient</button></li>
+          </div>)
+        }
+      )
+    );
     console.log(new_ingredients);
   }
 
-  function _updateInstructions() {
+  function _updateInstructions(add, toDelete) {
     var new_instructions = instructions;
-    new_instructions.push(instruction);
+    if (add) new_instructions.push(instruction);
+    else new_instructions.splice(new_instructions.indexOf(toDelete), 1);
     setInstructions(new_instructions);
+    setInstructionMap(
+      new_instructions.map(i => {
+        return(
+          <div>
+            <li className="instruction">{i}
+            <button onClick={() => _updateInstructions(false, i)}>Delete Instruction</button></li>
+          </div>)
+        }
+      )
+    );
     console.log(new_instructions);
   }
 
@@ -124,6 +148,10 @@ export default function AddRecipe({ user_id }) {
               />
             </FormGroup>
           </div>
+          <div className="ingredientDisplay">
+            <h3>Ingredients</h3>
+            {ingredientMap}
+          </div>
           <FormGroup className="AddRecipe-input"> 
             <Input
               type="text"
@@ -133,10 +161,14 @@ export default function AddRecipe({ user_id }) {
               onChange={(e) => setIngredient(e.target.value)}
               required
             />
-            <Button onClick={_updateIngredients} className="AddIngredient">
+            <Button onClick={() => _updateIngredients(true, null)} className="AddIngredient">
                 Add Ingredient
             </Button>
           </FormGroup>
+          <div className="instructionDisplay">
+            <h3>Instructions</h3>
+            {instructionMap}
+          </div>
           <FormGroup className="AddRecipe-input"> 
             <Input
               type="text"
@@ -146,7 +178,7 @@ export default function AddRecipe({ user_id }) {
               onChange={(e) => setInstruction(e.target.value)}
               required
             />
-            <Button onClick={_updateInstructions} className="AddInstruct">
+            <Button onClick={() => _updateInstructions(true, null)} className="AddInstruct">
                 Add Instruction
             </Button>
           </FormGroup>
