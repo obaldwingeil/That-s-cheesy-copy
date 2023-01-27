@@ -37,9 +37,41 @@ export default function Login({ user_id, handleLogin }) {
   }
 
   return (
-    <div className="main">
+    <div className="login-main">
+      <h1 className="login-title"><span className="login-cheese">🧀</span> <br/> Login to your account</h1>
+      <div className="Login-header">
+        <Form>
+          <FormGroup className="Login-input">
+            <Input
+              type="text"
+              value={username}
+              id="username-input"
+              className="username-input"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </FormGroup>
+          <FormGroup className="Login-input"> 
+            <Input
+              type="text"
+              value={password}
+              id="username-input"
+              className="username-input"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </FormGroup>
+      </Form>
+      <br></br>
+      <Button onClick={login} className="Login-btn">
+        Login
+      </Button>
+    </div>
       {failedLogin ?
         <div className="Error">
+          <br></br>
           Incorrect Login
         </div>
         :
@@ -47,35 +79,6 @@ export default function Login({ user_id, handleLogin }) {
           
         </div>
       }
-      <h1>Log In</h1>
-      <div className="Login-header">
-        <Form>
-          <FormGroup className="login-input">
-            <Input
-              type="text"
-              value={username}
-              id="username-input"
-              className="login-input"
-              placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </FormGroup>
-          <FormGroup className="login-input"> 
-            <Input
-              type="text"
-              value={password}
-              id="login-input"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </FormGroup>
-        </Form>
-        <Button onClick={login} className="Login">
-          Login
-        </Button>
-      </div>
     </div>
   );
 }
