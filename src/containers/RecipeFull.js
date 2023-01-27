@@ -90,28 +90,31 @@ class RecipeFull extends Component {
 
         return (
             <div className="recipe_full_container">
-                <div className="title_container">
-                    <h1 className="title">{this.state.title}</h1>
-                    {this.state.no_user ? <div></div> : <Favorite user_id={this.state.user_id} recipe_id={this.state.recipe_id} />}
-                </div>
                 <div className="image_container">
                     <h3></h3>
-                    <img width="400" src={this.state.image} />
+                    <img width="300" src={this.state.image} />
                 </div>
-                <div className="ingredient_container">
-                    <h3 className="ingredient_title">Ingredients</h3>
-                    {ingredient_map}
+                <div className="body-container-recipe">
+                    <div className="title_container">
+                        <h1 className="title">{this.state.title}</h1>
+                        {this.state.no_user ? <div></div> : <Favorite user_id={this.state.user_id} recipe_id={this.state.recipe_id} />}
+                    </div>
+                    <div className="ingredient_container">
+                        <h3 className="ingredient_title">Ingredients</h3>
+                        {ingredient_map}
+                    </div>
+                    <div className="instruction_container">
+                        <h3 className="instruction_title">Instructions</h3>
+                        {instruction_map}
+                    </div>
+                    <div className="note_container">
+                        <h3 className="note_title">Notes</h3>
+                        {this.state.no_user ? <div className="no_user"> 
+                        <Link to="/login" className="editlink"> Log in</Link> to add notes! </div> : this.state.notes}
+                    </div>
+                    <br></br>
+                    <Link to={`/recipe/edit/${this.state.recipe_id}`} className="editlink"> → Edit Recipe</Link>
                 </div>
-                <div className="instruction_container">
-                    <h3 className="instruction_title">Instructions</h3>
-                    {instruction_map}
-                </div>
-                <div className="note_container">
-                    <h3 className="note_title">Notes</h3>
-                    {this.state.no_user ? <div className="no_user"> 
-                    <Link to="/login"> Log in</Link> to add notes! </div> : this.state.notes}
-                </div>
-                <Link to={`/recipe/edit/${this.state.recipe_id}`}> Edit Recipe</Link>
             </div>
         )
     }
