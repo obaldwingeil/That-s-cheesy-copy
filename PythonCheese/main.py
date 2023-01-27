@@ -51,9 +51,18 @@ def get_recipes():
 
 @app.route('/addrecipe', methods=['POST'])
 def add_recipe():
-    recipe = request.json
-    recipes_collection.insert_one(recipe)
+    body = request.json
+    recipe = body['recipe']
+    res = recipes_collection.insert_one(recipe)
+    user_id = body['notes']['user_id']
+    note = body['notes']['note']
+    if user_id != "no user" and note != "":
+        recipe_id = str(res.inserted_id)
+        add_notes(user_id, recipe_id, note)
     return dumps({'message': 'Recipe added successfully'}), 201
+
+def add_notes(user_id, recipe_id, note):
+    user_collection.update_one({'_id': ObjectId(user_id)}, {'$push': {'notes': {recipe_id: note}}})
 
 @app.route('/recipe/edit/<id>', methods=['POST'])
 def edit_recipe(id):
@@ -129,8 +138,27 @@ def get_notes(user_id, recipe_id):
     res = "No Notes Yet!"
     for note in notes:
         if recipe_id in note:
-            res = note[recipe_id]
+            res = notes[recipe_id]
     return dumps(res)
 
+@app.route('/notes/update-note/<user_id>/<recipe_id>', methods=['POST'])
+def update_note(user_id, recipe_id):
+    note = request.json
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+    user_notes = user['notes']
+    has_note = False
+    for check_note in user_notes:
+        if recipe_id in check_note:
+            has_note = True
+    
+    if has_note:
+        user_collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'notes': {recipe_id: note['note']}}})
+        message = "Successfully updated note"
+    else:
+        user_collection.update_one({'_id': ObjectId(user_id)}, {'$push': {'notes': {recipe_id: note['note']}}})
+        message = "Successfully added note"
+
+    return dumps({'message': message}), 201
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=8000, debug=True)

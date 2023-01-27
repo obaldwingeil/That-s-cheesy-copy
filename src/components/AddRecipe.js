@@ -3,31 +3,39 @@ import "../css/AddRecipe.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";  
 import { useNavigate } from "react-router";
 
-export default function AddRecipe() {
+export default function AddRecipe({ user_id }) {
   const [title, setTitle] = useState("");
   const [ingredient, setIngredient] = useState("");
   const [instruction, setInstruction] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState("");
   const [embedId, setEmbedId] = useState("");
   const [invalidURL, setInvalidURL] = useState(false);
+  const [note, setNote] = useState("");
+  const [noUser, setNoUser] = useState(user_id === "no user");
 
   const navigate = useNavigate();
 
   const addrecipe = async () => {
-    const rawResponse = await fetch('http://127.0.0.1:5000/addrecipe', {
+    const rawResponse = await fetch('http://127.0.0.1:8000/addrecipe', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        title: title, 
-        ingredients: ingredients, 
-        instructions: instructions, 
-        image: image,
-        embedId: embedId
+        recipe: {
+          title: title, 
+          ingredients: ingredients, 
+          instructions: instructions, 
+          image: image,
+          embedId: embedId
+        },
+        notes: {
+          note: note,
+          user_id: user_id
+        }
       })
     });
     const content = await rawResponse.json();
@@ -142,11 +150,15 @@ export default function AddRecipe() {
                 Add Instruction
             </Button>
           </FormGroup>
+          {noUser ? <div className="noUserMessage">Log in to add personal notes!</div> : <div/>}
           <FormGroup className="User-input"> 
             <Input
               type="textarea"
               id="User-input"
-              placeholder="Comments"
+              placeholder="Personal Notes"
+              maxLength={250}
+              onChange={(e) => setNote(e.target.value)}
+              disabled={noUser}
             />
           </FormGroup>
         </Form>

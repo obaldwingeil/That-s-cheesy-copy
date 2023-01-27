@@ -13,9 +13,11 @@ class EditRecipe extends Component {
             instruction: "",
             ingredients: [],
             instructions: [],
-            image: null,
+            image: "",
             embedId: "",
-            invalidURL: false
+            invalidURL: false,
+            notes: "",
+            noUser: this.props.user_id === "no user"
         }
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeIngredient = this.onChangeIngredient.bind(this);
@@ -26,11 +28,15 @@ class EditRecipe extends Component {
         this.editRecipe = this.editRecipe.bind(this);
         this._getEmbedId = this._getEmbedId.bind(this);
         this._cancel = this._cancel.bind(this);
+        this.onChangeNotes = this.onChangeNotes.bind(this);
+        this.updateNotes = this.updateNotes.bind(this);
+        this._getNotes = this._getNotes.bind(this);
     }
 
     componentDidMount() {
         const id = this.props.router.params.id;
-        fetch(`http://127.0.0.1:5000/recipe/${id}`, {
+        this.setState({ recipe_id: id });
+        fetch(`http://127.0.0.1:8000/recipe/${id}`, {
             method: 'GET'
         })
         .then((response) => response.json())
@@ -48,6 +54,26 @@ class EditRecipe extends Component {
         .catch (function(error) {
             console.log(error)
         })
+
+        if(!this.state.noUser) this._getNotes(id); 
+    }
+
+    _getNotes(id) {
+        fetch(`http://127.0.0.1:8000/notes/${this.props.user_id}/${id}`, {
+            method: 'GET'
+        })  
+        .then((response) => response.json())
+        .then((data) => {
+            // console.log('Successs:', data);
+            if (data !== "No Notes Yet!") {
+                this.setState({
+                    notes: data
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 
     onChangeTitle(e) {
@@ -71,8 +97,12 @@ class EditRecipe extends Component {
         }
     };
 
+    onChangeNotes(e) {
+        this.setState({ notes: e.target.value });
+    }
+
     editRecipe(id) {
-        fetch(`http://127.0.0.1:5000/recipe/edit/${id}`, {
+        fetch(`http://127.0.0.1:8000/recipe/edit/${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -88,7 +118,23 @@ class EditRecipe extends Component {
         })
         .then ((response) => response.json())
         .then ((data) => {console.log(data)})
-        this.props.router.navigate(`/recipe/${this.state.recipe_id}`);
+        if(!this.state.noUser) this.updateNotes();
+    }
+
+    updateNotes() {
+        fetch(`http://127.0.0.1:8000//notes/update-note/${this.props.user_id}/${this.state.recipe_id}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                note: this.state.notes
+            })
+        })
+        .then ((response) => response.json())
+        .then ((data) => {console.log(data)})
+        .then(this.props.router.navigate(`/recipe/${this.state.recipe_id}`));
     }
   
     _updateIngredients() {
@@ -221,11 +267,16 @@ class EditRecipe extends Component {
                             </Button>
                         </FormGroup>
                         <br></br>
+                        {this.state.noUser ? <div className="noUserMessage">Log in to add personal notes!</div> : <div/>}
                         <FormGroup className="User-input"> 
                             <Input
                             type="textarea"
                             id="User-input"
-                            placeholder="Comments"
+                            placeholder="Personal Notes"
+                            maxLength={250}
+                            onBlur={this.onChangeNotes}
+                            defaultValue={this.state.notes}
+                            disabled={this.state.noUser}
                             />
                         </FormGroup>
                     </Form>

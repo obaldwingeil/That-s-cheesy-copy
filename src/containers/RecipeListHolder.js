@@ -27,10 +27,10 @@ class RecipeListHolder extends Component {
                     no_user: true
                 });
             } else {
-                this._getRecipes(`http://127.0.0.1:5000/favorites/${user_id}`);
+                this._getRecipes(`http://127.0.0.1:8000/favorites/${user_id}`);
             }
         } else {
-            this._getRecipes('http://127.0.0.1:5000/recipes');
+            this._getRecipes('http://127.0.0.1:8000/recipes');
         }
     }
 
