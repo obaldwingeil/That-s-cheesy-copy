@@ -94,12 +94,14 @@ class RecipeFull extends Component {
 
         return (
             <div className="recipe_full_container">
-                <div className="image_container">
-                    <h3></h3>
-                    <img width="300" src={this.state.image} />
-                </div>
-                <div className="youtube_embed_container">
-                    {this.state.embedId === "" ? <div/> : <YoutubeEmbed embedId={this.state.embedId} />}
+                <div className="imagevid">
+                    <div className="image_container">
+                        <h3></h3>
+                        <img width="300" src={this.state.image} />
+                    </div>
+                    <div className="youtube_embed_container">
+                        {this.state.embedId === "" ? <div/> : <YoutubeEmbed embedId={this.state.embedId} />}
+                    </div>
                 </div>
                 <div className="body-container-recipe">
                     <div className="title_container">
