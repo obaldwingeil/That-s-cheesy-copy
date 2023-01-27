@@ -17,7 +17,12 @@ class EditRecipe extends Component {
             embedId: "",
             invalidURL: false,
             notes: "",
-            noUser: this.props.user_id === "no user"
+            noUser: this.props.user_id === "no user",
+            invalidTitle: false,
+            ingredientLimitReached: false,
+            instructionLimitReached: false,
+            noIngredients: false,
+            noInstructions: false
         }
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeIngredient = this.onChangeIngredient.bind(this);
@@ -31,6 +36,9 @@ class EditRecipe extends Component {
         this.onChangeNotes = this.onChangeNotes.bind(this);
         this.updateNotes = this.updateNotes.bind(this);
         this._getNotes = this._getNotes.bind(this);
+        this._invalidList = this._invalidList.bind(this);
+        this._deleteIngredient = this._deleteIngredient.bind(this);
+        this._deleteInstruction = this._deleteInstruction.bind(this);
     }
 
     componentDidMount() {
@@ -77,7 +85,8 @@ class EditRecipe extends Component {
     }
 
     onChangeTitle(e) {
-        this.setState({ title: e.target.value })
+        if (e.target.value === "") this.setState({ invalidTitle: true });
+        else this.setState({ title: e.target.value, invalidTitle: false })
     }
 
     onChangeIngredient(e) {
@@ -117,8 +126,11 @@ class EditRecipe extends Component {
             })
         })
         .then ((response) => response.json())
-        .then ((data) => {console.log(data)})
-        if(!this.state.noUser) this.updateNotes();
+        .then ((data) => {
+            console.log(data)
+            if(!this.state.noUser) this.updateNotes();
+            else this.props.router.navigate(`/recipe/${this.state.recipe_id}`);
+        })
     }
 
     updateNotes() {
@@ -136,18 +148,35 @@ class EditRecipe extends Component {
         .then ((data) => {console.log(data)})
         .then(this.props.router.navigate(`/recipe/${this.state.recipe_id}`));
     }
+
+    _invalidList(list) {
+        const res = [false, false]
+        if (list.length < 1) res[0] = true;
+        if (list.length >= 10) res[1] = true;
+        return res;
+    }
   
     _updateIngredients() {
         var new_ingredients = this.state.ingredients;
         new_ingredients.push(this.state.ingredient);
-        this.setState({ingredients: new_ingredients});
+        const limit = this._invalidList(new_ingredients);
+        this.setState({
+            ingredients: new_ingredients,
+            noIngredients: limit[0],
+            ingredientLimitReached: limit[1]
+        });
         console.log(new_ingredients);
     }
 
     _updateInstructions() {
         var new_instructions = this.state.instructions;
         new_instructions.push(this.state.instruction);
-        this.setState({instructions: new_instructions});
+        const limit = this._invalidList(new_instructions);
+        this.setState({
+            instructions: new_instructions,
+            noInstructions: limit[0],
+            instructionLimitReached: limit[1]
+        });
         console.log(new_instructions);
     }
 
@@ -177,28 +206,42 @@ class EditRecipe extends Component {
         this.props.router.navigate(`/recipe/${this.state.recipe_id}`);
     }
 
+    _deleteIngredient(ingredient) {
+        var new_ingredients = this.state.ingredients.filter(function(ing) {
+            return ing !== ingredient
+        });
+        const limit = this._invalidList(new_ingredients);
+        this.setState({
+            ingredients: new_ingredients,
+            noIngredients: limit[0],
+            ingredientLimitReached: limit[1]
+        });
+    }
+
+    _deleteInstruction(instruction) {
+        var new_instructions = this.state.instructions.filter(function(ing) {
+            return ing !== instruction
+        });
+        const limit = this._invalidList(new_instructions);
+        this.setState({
+            instructions: new_instructions,
+            noInstructions: limit[0],
+            instructionLimitReached: limit[1]
+        });
+    }
+
     render() {
         const ingredient_map = this.state.ingredients.map(i => {
             return(<div>
                 <li className="ingredient">{i}
-                <button onClick={() => {
-                    this.setState({ingredients:
-                    this.state.ingredients.filter(function(ing) {
-                        return ing !== i
-                    })});
-                }}>Delete Ingredient</button></li>
+                <button onClick={() => this._deleteIngredient(i)}>Delete Ingredient</button></li>
                 </div>)
         })
 
         const instruction_map = this.state.instructions.map(i => {
             return(<div>
                 <li className="instruction">{i}
-                <button onClick={() => {
-                    this.setState({instructions:
-                    this.state.instructions.filter(function(ins) {
-                        return ins !== i
-                    })});
-                }}>Delete Instruction</button></li>
+                <button onClick={() => this._deleteInstruction(i)}>Delete Instruction</button></li>
                 </div>)
         })
 
@@ -207,14 +250,16 @@ class EditRecipe extends Component {
                 <div className="EditRecipe-header">
                     <Form>
                         <h1 className="title">{this.state.title}</h1>
+                        {this.state.invalidTitle ? <div className="invalidTitle">Invalid Title</div> : <div/>}
                         <FormGroup className="EditRecipe-input">
                             <Input
                             type="text"
-                            value={this.state.title}
+                            defaultValue={this.state.title}
                             id="title-input"
                             className="EditRecipe-input"
                             placeholder="Title"
-                            onChange={this.onChangeTitle}
+                            onBlur={this.onChangeTitle}
+                            maxLength={64}
                             />
                         </FormGroup>
                         <br></br>
@@ -240,6 +285,8 @@ class EditRecipe extends Component {
                         <div className="ingredientDisplay">
                             <h3>Ingredients</h3>
                             {ingredient_map}
+                            {this.state.ingredientLimitReached ? <div className="limitReached">Ingredient Limit Reached (Max: 10)</div>: <div/>}
+                            {this.state.noIngredients ? <div className="limitReached">Must include at least 1 ingredient</div> : <div />}
                         </div>
                         <br></br>
                         <FormGroup className="EditRecipe-input"> 
@@ -250,7 +297,11 @@ class EditRecipe extends Component {
                             placeholder="Ingredient"
                             onChange={this.onChangeIngredient}
                             />
-                            <Button onClick={this._updateIngredients} className="UpdateIngredient">
+                            <Button 
+                                onClick={this._updateIngredients} 
+                                className="UpdateIngredient"
+                                disabled={this.state.ingredientLimitReached}
+                            >
                                 Add Ingredient
                             </Button>
                         </FormGroup>
@@ -258,6 +309,8 @@ class EditRecipe extends Component {
                         <div className="instructionDisplay">
                             <h3>Instructions</h3>
                             {instruction_map}
+                            {this.state.instructionLimitReached ? <div className="limitReached">Instruction Limit Reached (Max: 10)</div>: <div/>}
+                            {this.state.noInstructions ? <div className="limitReached">Must include at least 1 instruction</div> : <div />}
                         </div>
                         <br></br>
                         <FormGroup className="EditRecipe-input"> 
@@ -268,7 +321,11 @@ class EditRecipe extends Component {
                             placeholder="Instruction"
                             onChange={this.onChangeInstruction}
                             />
-                            <Button onClick={this._updateInstructions} className="UpdateInstruct">
+                            <Button 
+                                onClick={this._updateInstructions} 
+                                className="UpdateInstruct"
+                                disabled={this.state.instructionLimitReached}
+                            >
                                 Add Instruction
                             </Button>
                         </FormGroup>
@@ -290,7 +347,11 @@ class EditRecipe extends Component {
                     <Button className="cancel_button" onClick={this._cancel}>
                         Cancel
                     </Button>
-                    <Button onClick={() => this.editRecipe(this.state.recipe_id)} className="EditRecipe">
+                    <Button 
+                        onClick={() => this.editRecipe(this.state.recipe_id)} 
+                        className="EditRecipe"
+                        disabled={this.state.noIngredients || this.state.noInstructions || this.state.invalidTitle || this.state.invalidURL}
+                    >
                         Update Recipe
                     </Button>
                 </div>

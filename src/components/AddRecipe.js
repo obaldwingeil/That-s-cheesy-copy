@@ -127,6 +127,7 @@ export default function AddRecipe({ user_id }) {
               placeholder="Title"
               onChange={(e) => setTitle(e.target.value)}
               required
+              maxLength={64}
             />
           </FormGroup>
           <div className="imageInput">
