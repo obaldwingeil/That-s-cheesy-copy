@@ -82,19 +82,16 @@ def delete_recipe(id):
 
 ### Favorite Recipes Endpoints ###
 
-@app.route('/favorite-recipe', methods=['POST'])
-def add_favorite_recipe():
-    recipe = request.json
-    favorite_recipes_collection = db.favorite_recipes
-    favorite_recipes_collection.insert_one(recipe)
-    return dumps({'message': 'Recipe added to favorites successfully'}), 201
-
-
-@app.route('/favorite-recipe/<id>', methods=['DELETE'])
-def delete_favorite_recipe(id):
-    favorite_recipes_collection = db.favorite_recipes
-    favorite_recipes_collection.delete_one({'_id': ObjectId(id)})
-    return dumps({'message': 'Recipe removed from favorites successfully'}), 200
+@app.route('/favorite-recipe/<user_id>/<recipe_id>', methods=['POST'])
+def toggle_favorite_recipe(user_id, recipe_id):
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+    if recipe_id not in user['saved']:
+        user_collection.update_one({'_id': ObjectId(user_id)}, {'$push': {'saved': recipe_id}})
+        message = 'Recipe added to favorites successfully'
+    else:
+        user_collection.update_one({'_id': ObjectId(user_id)}, {'$pull': {'saved': recipe_id}})
+        message = 'Recipe removed from favorites successfully'
+    return dumps({'message': message}), 201
 
 ### User ###
 
@@ -104,7 +101,15 @@ def get_users():
     users = user_collection.find_one({ '$and': [{'username': login['username']}, {'password': login['password']}] })
     return dumps(users) # returns null if username and password do not match any records
 
-
+@app.route('/favorites/<user_id>/<recipe_id>', methods=['GET'])
+def is_favorite(user_id, recipe_id):
+    user = user_collection.find_one({'_id': ObjectId(user_id)})
+    favorites = user['saved']
+    res = False
+    for recipe in favorites:
+        if recipe == recipe_id:
+            res = True
+    return dumps(res)
 
 @app.route('/favorites/<user_id>', methods=['GET'])
 def get_favorites(user_id):

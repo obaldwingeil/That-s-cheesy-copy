@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/RecipeFull.css";
 import withRouter from "./WithRouter";
 import { Link } from 'react-router-dom';
+import Favorite from "./Favorite";
 
 class RecipeFull extends Component {
 
@@ -15,10 +16,10 @@ class RecipeFull extends Component {
             image: null,
             notes: "", 
             user_id: "",
-            no_user: false
+            no_user: false,
         }
         this._getRecipe = this._getRecipe.bind(this);
-        
+        this._getNotes = this._getNotes.bind(this);
     }
 
     componentDidMount() {
@@ -89,14 +90,13 @@ class RecipeFull extends Component {
 
         return (
             <div className="recipe_full_container">
-                <div className="title-image-recipe">
-                    <div className="title_container">
-                        <h1 className="title">{this.state.title}</h1>
-                    </div>
-                    <div className="image_container">
-                        <h3></h3>
-                        <img width="400" src={this.state.image} />
-                    </div>
+                <div className="title_container">
+                    <h1 className="title">{this.state.title}</h1>
+                    {this.state.no_user ? <div></div> : <Favorite user_id={this.state.user_id} recipe_id={this.state.recipe_id} />}
+                </div>
+                <div className="image_container">
+                    <h3></h3>
+                    <img width="400" src={this.state.image} />
                 </div>
                 <div className="ingredient_container">
                     <h3 className="ingredient_title">Ingredients</h3>
