@@ -82,6 +82,9 @@ export default function AddRecipe() {
   return (
     <div className="main">
       <div className="AddRecipe-header">
+        <h1 className="AddRecipe-title">
+          Add Your New Recipe Below
+        </h1>
         <Form>
           <FormGroup className="AddRecipe-input">
             <Input
@@ -94,12 +97,11 @@ export default function AddRecipe() {
               required
             />
           </FormGroup>
-          <br></br>
-          <img width="400" src={image} />
-          <br></br>
-          <h3>Select Image</h3>
-          <input type="file" name="myImage" onChange={onChangeImage} />
-          <h3></h3>
+          <div className="imageInput">
+            <img width="400" src={image} />
+            <h3>Select Image</h3>
+            <input type="file" name="myImage" onChange={onChangeImage} />
+          </div>
           <div className="youtubeInput container">
             {invalidURL ? <div className="invalidURL">
               Invalid URL
