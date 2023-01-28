@@ -89,7 +89,7 @@ export default function AddRecipe({ user_id }) {
 
   function _updateIngredients(add, toDelete) {
     var new_ingredients = ingredients;
-    if (add) new_ingredients.push(ingredient);
+    if (add && ingredient !== "") new_ingredients.push(ingredient);
     else new_ingredients.splice(new_ingredients.indexOf(toDelete), 1);
     setIngredients(new_ingredients);
     setIngredientMap(
@@ -111,7 +111,7 @@ export default function AddRecipe({ user_id }) {
 
   function _updateInstructions(add, toDelete) {
     var new_instructions = instructions;
-    if (add) new_instructions.push(instruction);
+    if (add && instruction !== "") new_instructions.push(instruction);
     else new_instructions.splice(new_instructions.indexOf(toDelete), 1);
     setInstructions(new_instructions);
     setInstructionMap(

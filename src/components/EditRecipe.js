@@ -158,7 +158,7 @@ class EditRecipe extends Component {
   
     _updateIngredients() {
         var new_ingredients = this.state.ingredients;
-        new_ingredients.push(this.state.ingredient);
+        if (this.state.ingredient !== "") new_ingredients.push(this.state.ingredient);
         const limit = this._invalidList(new_ingredients);
         this.setState({
             ingredients: new_ingredients,
@@ -166,12 +166,12 @@ class EditRecipe extends Component {
             noIngredients: limit[0],
             ingredientLimitReached: limit[1]
         });
-        console.log(new_ingredients);
+        // console.log(new_ingredients);
     }
 
     _updateInstructions() {
         var new_instructions = this.state.instructions;
-        new_instructions.push(this.state.instruction);
+        if (this.state.instruction !== "") new_instructions.push(this.state.instruction);
         const limit = this._invalidList(new_instructions);
         this.setState({
             instructions: new_instructions,
@@ -179,7 +179,7 @@ class EditRecipe extends Component {
             noInstructions: limit[0],
             instructionLimitReached: limit[1]
         });
-        console.log(new_instructions);
+        // console.log(new_instructions);
     }
 
     _getEmbedId(event) {
