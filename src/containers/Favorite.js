@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Favorite.css";
 import { Button } from "reactstrap";
 
@@ -11,40 +11,30 @@ export default function Favorite({ user_id, recipe_id }) {
         if (user_id !== "") {
             _getFavorite(user_id, recipe_id);
             console.log('before:', counter);
-            _getCounter(recipe_id);
-            console.log('Counter:', counter, isFavorite);
         }
     });
+
+    useEffect(() => {
+        if (recipe_id !== "") {
+            _getCounter(recipe_id);
+            console.log('get c: ', counter);
+        }
+        console.log('recipe id', recipe_id)
+    }, [recipe_id]);
 
     function incCounter() {
         let temp = Number(counter);
         temp += 1;
         setCounter(temp);
+        updateCounter(recipe_id, temp);
     }
 
     function decCounter() {
         let temp = Number(counter);
         temp -= 1;
         setCounter(temp);
+        updateCounter(recipe_id, temp);
     }
-
-    // function _getAllFavorites() {
-    //     fetch('http://127.0.0.1:5000/allfavorites', {
-    //         method: 'GET'
-    //     })  
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //         let users = [];
-    //         for (let i = 0; i < data.length; i++) {
-    //             users.push(data[i]._id.$oid);
-    //         }
-    //         setAllUsers(users);
-    //         console.log('all Users: ', allUsers);
-    //     })
-    //     .catch((error) => {
-    //         console.error('Error:', error);
-    //     });
-    // }
 
     function _getCounter(id) {
         fetch(`http://127.0.0.1:5000/recipe/${id}`, {
@@ -53,14 +43,14 @@ export default function Favorite({ user_id, recipe_id }) {
         .then((response) => response.json())
         .then((data) => {
             setCounter(Number(data.counter));
-            console.log('get count:', counter)
+            // console.log('get count:', data)
         })
         .catch((error) => {
             console.error('Error:', error);
         });
     }
 
-    function updateCounter(id) {
+    function updateCounter(id, temp) {
         fetch(`http://127.0.0.1:5000/recipe/edit/${id}`, {
             method: 'POST',
             headers: {
@@ -68,7 +58,7 @@ export default function Favorite({ user_id, recipe_id }) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                counter: counter.toString()
+                counter: temp.toString()
             })
         }).then((response) => response.json())
         .then((data) => {
@@ -99,13 +89,13 @@ export default function Favorite({ user_id, recipe_id }) {
         .then((response) => response.json())
         .then((data) => {
             // console.log('Successs:', data);
-            setFavorite(!isFavorite);
+            // _getCounter(recipe_id);
             if (!isFavorite) {
                 incCounter();
             } else {
                 decCounter();
             }
-            updateCounter(recipe_id);
+            setFavorite(!isFavorite);
         })
         .catch((error) => {
             console.error('Error:', error);
