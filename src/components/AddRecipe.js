@@ -105,6 +105,7 @@ export default function AddRecipe({ user_id }) {
     const limit = _invalidList(new_ingredients);
     setNoIngredients(limit[0]);
     setIngredientLimitReached(limit[1]);
+    setIngredient("");
     console.log(new_ingredients);
   }
 
@@ -126,6 +127,7 @@ export default function AddRecipe({ user_id }) {
     const limit = _invalidList(new_instructions);
     setNoInstructions(limit[0]);
     setInstructionLimitReached(limit[1]);
+    setInstruction("");
     console.log(new_instructions);
   }
 

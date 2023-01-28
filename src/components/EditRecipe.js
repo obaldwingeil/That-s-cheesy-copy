@@ -162,6 +162,7 @@ class EditRecipe extends Component {
         const limit = this._invalidList(new_ingredients);
         this.setState({
             ingredients: new_ingredients,
+            ingredient: "",
             noIngredients: limit[0],
             ingredientLimitReached: limit[1]
         });
@@ -174,6 +175,7 @@ class EditRecipe extends Component {
         const limit = this._invalidList(new_instructions);
         this.setState({
             instructions: new_instructions,
+            instruction: "",
             noInstructions: limit[0],
             instructionLimitReached: limit[1]
         });
