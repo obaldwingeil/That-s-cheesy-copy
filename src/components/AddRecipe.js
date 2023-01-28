@@ -16,6 +16,11 @@ export default function AddRecipe({ user_id }) {
   const [noUser, setNoUser] = useState(user_id === "no user");
   const [ingredientMap, setIngredientMap] = useState([]);
   const [instructionMap, setInstructionMap] = useState([]);
+  const [noIngredients, setNoIngredients] = useState(true);
+  const [noInstructions, setNoInstructions] = useState(true);
+  const [ingredientLimitReached, setIngredientLimitReached] = useState(false);
+  const [instructionLimitReached, setInstructionLimitReached] = useState(false);
+  const [invalidTitle, setInvalidTitle] = useState(true);
 
   const navigate = useNavigate();
 
@@ -75,6 +80,13 @@ export default function AddRecipe({ user_id }) {
     }
   }
 
+  function _invalidList(list) {
+    const res = [false, false]
+    if (list.length < 1) res[0] = true;
+    if (list.length >= 10) res[1] = true;
+    return res;
+}
+
   function _updateIngredients(add, toDelete) {
     var new_ingredients = ingredients;
     if (add) new_ingredients.push(ingredient);
@@ -90,6 +102,9 @@ export default function AddRecipe({ user_id }) {
         }
       )
     );
+    const limit = _invalidList(new_ingredients);
+    setNoIngredients(limit[0]);
+    setIngredientLimitReached(limit[1]);
     console.log(new_ingredients);
   }
 
@@ -108,7 +123,18 @@ export default function AddRecipe({ user_id }) {
         }
       )
     );
+    const limit = _invalidList(new_instructions);
+    setNoInstructions(limit[0]);
+    setInstructionLimitReached(limit[1]);
     console.log(new_instructions);
+  }
+
+  function onChangeTitle(e) {
+    if (e.target.value === "") setInvalidTitle(true);
+    else {
+      setTitle(e.target.value);
+      setInvalidTitle(false);
+    }
   }
 
   return (
@@ -118,14 +144,15 @@ export default function AddRecipe({ user_id }) {
           Add Your New Recipe Below
         </h1>
         <Form>
+          {invalidTitle ? <div className="invalidTitle">Must Include Title</div> : <div/>}
           <FormGroup className="AddRecipe-input">
             <Input
               type="text"
-              value={title}
+              defaultValue={title}
               id="title-input"
               className="AddRecipe-input"
               placeholder="Title"
-              onChange={(e) => setTitle(e.target.value)}
+              onBlur={(e) => onChangeTitle(e)}
               required
               maxLength={64}
             />
@@ -152,6 +179,8 @@ export default function AddRecipe({ user_id }) {
           <div className="ingredientDisplay">
             <h3>Ingredients</h3>
             {ingredientMap}
+            {ingredientLimitReached ? <div className="limitReached">Ingredient Limit Reached (Max: 10)</div>: <div/>}
+            {noIngredients ? <div className="limitReached">Must include at least 1 ingredient</div> : <div />}
           </div>
           <FormGroup className="AddRecipe-input"> 
             <Input
@@ -162,12 +191,18 @@ export default function AddRecipe({ user_id }) {
               onChange={(e) => setIngredient(e.target.value)}
               required
             />
-            <Button onClick={() => _updateIngredients(true, null)} className="AddIngredient">
+            <Button 
+              onClick={() => _updateIngredients(true, null)} 
+              className="AddIngredient"
+              disabled={ingredientLimitReached}
+              >
                 Add Ingredient
             </Button>
           </FormGroup>
           <div className="instructionDisplay">
             <h3>Instructions</h3>
+            {instructionLimitReached ? <div className="limitReached">Instruction Limit Reached (Max: 10)</div>: <div/>}
+            {noInstructions ? <div className="limitReached">Must include at least 1 instruction</div> : <div />}
             {instructionMap}
           </div>
           <FormGroup className="AddRecipe-input"> 
@@ -179,7 +214,11 @@ export default function AddRecipe({ user_id }) {
               onChange={(e) => setInstruction(e.target.value)}
               required
             />
-            <Button onClick={() => _updateInstructions(true, null)} className="AddInstruct">
+            <Button 
+              onClick={() => _updateInstructions(true, null)} 
+              className="AddInstruct"
+              disabled={instructionLimitReached}
+            >
                 Add Instruction
             </Button>
           </FormGroup>
@@ -198,7 +237,11 @@ export default function AddRecipe({ user_id }) {
         <Button className="cancel_button" onClick={cancel}>
           Cancel
         </Button>
-        <Button onClick={addrecipe} className="AddRecipe">
+        <Button 
+          onClick={addrecipe} 
+          className="AddRecipe"
+          disabled={noIngredients || noInstructions || invalidTitle}
+          >
           Add
         </Button>
       </div>
