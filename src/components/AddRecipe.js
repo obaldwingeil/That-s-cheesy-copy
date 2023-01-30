@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/AddRecipe.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";  
 import { useNavigate } from "react-router";
+import AddListItem from "./AddListItem";
 
 export default function AddRecipe({ user_id }) {
   const [title, setTitle] = useState("");
@@ -88,18 +89,22 @@ export default function AddRecipe({ user_id }) {
     return res;
 }
 
-  function _updateIngredients(add, toDelete) {
+  function _updateIngredients(add, new_item, index) {
     var new_ingredients = ingredients;
-    if (add && ingredient !== "") new_ingredients.push(ingredient);
-    else new_ingredients.splice(new_ingredients.indexOf(toDelete), 1);
+    if (add) {
+      if (index === -1) new_ingredients.push(new_item);
+      else new_ingredients[index] = new_item;
+    } else new_ingredients.splice(index, 1);
     setIngredients(new_ingredients);
     setIngredientMap(
-      new_ingredients.map(i => {
+      new_ingredients.map((i, i_index) => {
         return(
-          <div>
-            <li className="ingredient">{i}
-            <button onClick={() => _updateIngredients(false, i)}>Delete Ingredient</button></li>
-          </div>)
+          <AddListItem
+            item={i}
+            index={i_index}
+            _update={_updateIngredients}
+            key={i_index}
+          />)
         }
       )
     );
@@ -107,21 +112,25 @@ export default function AddRecipe({ user_id }) {
     setNoIngredients(limit[0]);
     setIngredientLimitReached(limit[1]);
     setIngredient("");
-    console.log(new_ingredients);
+    // console.log(new_ingredients);
   }
 
-  function _updateInstructions(add, toDelete) {
+  function _updateInstructions(add, new_item, index) {
     var new_instructions = instructions;
-    if (add && instruction !== "") new_instructions.push(instruction);
-    else new_instructions.splice(new_instructions.indexOf(toDelete), 1);
+    if (add) {
+      if (index === -1) new_instructions.push(instruction);
+      else new_instructions[index] = new_item;
+    } else new_instructions.splice(index, 1);
     setInstructions(new_instructions);
     setInstructionMap(
-      new_instructions.map(i => {
+      new_instructions.map((i, i_index) => {
         return(
-          <div>
-            <li className="instruction">{i}
-            <button onClick={() => _updateInstructions(false, i)}>Delete Instruction</button></li>
-          </div>)
+          <AddListItem
+            item={i}
+            index={i_index}
+            _update={_updateInstructions}
+            key={i_index}
+          />)
         }
       )
     );
@@ -129,7 +138,7 @@ export default function AddRecipe({ user_id }) {
     setNoInstructions(limit[0]);
     setInstructionLimitReached(limit[1]);
     setInstruction("");
-    console.log(new_instructions);
+    // console.log(new_instructions);
   }
 
   function onChangeTitle(e) {
@@ -206,7 +215,7 @@ export default function AddRecipe({ user_id }) {
               required
             />
             <Button 
-              onClick={() => _updateIngredients(true, null)} 
+              onClick={() => _updateIngredients(true, ingredient, -1)} 
               className="AddIngredient"
               disabled={ingredientLimitReached}
               >
@@ -229,7 +238,7 @@ export default function AddRecipe({ user_id }) {
               required
             />
             <Button 
-              onClick={() => _updateInstructions(true, null)} 
+              onClick={() => _updateInstructions(true, instruction, -1)} 
               className="AddInstruct"
               disabled={instructionLimitReached}
             >
