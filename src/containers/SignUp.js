@@ -11,7 +11,7 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const signup = async () => {
-    const rawResponse = await fetch('http://127.0.0.1:5000/adduser', {
+    const rawResponse = await fetch('http://127.0.0.1:8000/adduser', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
