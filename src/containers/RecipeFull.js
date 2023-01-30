@@ -73,7 +73,7 @@ class RecipeFull extends Component {
         })  
         .then((response) => response.json())
         .then((data) => {
-            console.log('log', typeof user_id);
+            // console.log('log', typeof user_id);
             // console.log('Successs:', data);
             this.setState({
                 notes: data
@@ -85,12 +85,12 @@ class RecipeFull extends Component {
     }
 
     render(){
-        const ingredient_map = this.state.ingredients.map(i => {
-            return(<li className="ingredient">{i}</li>)
+        const ingredient_map = this.state.ingredients.map((i, index) => {
+            return(<li className="ingredient" key={index}>{i}</li>)
         })
 
-        const instruction_map = this.state.instructions.map(i => {
-            return(<li className="instruction">{i}</li>)
+        const instruction_map = this.state.instructions.map((i, index) => {
+            return(<li className="instruction" key={index}>{i}</li>)
         })
 
         return (

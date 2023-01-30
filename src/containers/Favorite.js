@@ -10,16 +10,16 @@ export default function Favorite({ user_id, recipe_id }) {
     useEffect(() => {
         if (user_id !== "") {
             _getFavorite(user_id, recipe_id);
-            console.log('before:', counter);
+            // console.log('before:', counter);
         }
     });
 
     useEffect(() => {
         if (recipe_id !== "") {
             _getCounter(recipe_id);
-            console.log('get c: ', counter);
+            // console.log('get c: ', counter);
         }
-        console.log('recipe id', recipe_id)
+        // console.log('recipe id', recipe_id)
     }, [recipe_id]);
 
     function incCounter() {
