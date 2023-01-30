@@ -16,10 +16,10 @@ export default function EditListItem({ _delete, item, index, _update }) {
             {empty ? <div className="emptyListItem">Item cannot be empty</div> : <div/>}
             <Input
                 type='text'
-                defaultValue={item}
-                onBlur={(e) => {_update(e.target.value, index); _toggleEmpty(e.target.value)}}
+                value={item}
+                onChange={(e) => {_update(e.target.value, index); _toggleEmpty(e.target.value)}}
             />
-            <button onClick={() => _delete(item)}>Delete</button>     
+            <button onClick={(e) => {e.preventDefault(); _delete(item)}}>Delete</button>     
         </div>
     );
 }

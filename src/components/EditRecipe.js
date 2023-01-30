@@ -163,10 +163,8 @@ class EditRecipe extends Component {
   
     _updateIngredients(new_ingredient, index) {
         var new_ingredients = this.state.ingredients;
-        if (new_ingredient !== "") {
-            if (index !== -1) new_ingredients[index] = new_ingredient;
-            else new_ingredients.push(new_ingredient);
-        }
+        if (index !== -1) new_ingredients[index] = new_ingredient;
+        else new_ingredients.push(new_ingredient);
         const limit = this._invalidList(new_ingredients);
         this.setState({
             ingredients: new_ingredients,
@@ -179,10 +177,8 @@ class EditRecipe extends Component {
 
     _updateInstructions(new_instruction, index) {
         var new_instructions = this.state.instructions;
-        if (new_instruction !== "") {
-            if (index !== -1) new_instructions[index] = new_instruction;
-            else new_instructions.push(new_instruction);
-        }
+        if (index !== -1) new_instructions[index] = new_instruction;
+        else new_instructions.push(new_instruction);
         const limit = this._invalidList(new_instructions);
         this.setState({
             instructions: new_instructions,
