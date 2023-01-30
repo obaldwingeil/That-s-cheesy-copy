@@ -4,8 +4,6 @@
     width: 100%;
     overflow: auto;
     height: auto;
-    position: fixed;
-    font-family: 'https://fonts.googleapis.com/css?family=Actor';
 }
 
 .links {
@@ -15,14 +13,8 @@
     text-decoration: none;
     color: black;
     font-size: 15px;
-    font-weight: bold;
-    text-shadow: 1px 1px 3px #d3d3d3;
-    transition: all 0.2s ease-in-out;
 }
 
 .links:hover {
-    text-shadow: 2px 2px 4px #000000;
-    font-weight: bold;
-    transform: scale(1.1);
-    opacity: 0.7;
+    border-bottom: 2px solid black;
 }

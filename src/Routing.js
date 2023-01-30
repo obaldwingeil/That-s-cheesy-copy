@@ -7,6 +7,7 @@ import { NavigationContainer } from "./containers/NavigationContainer";
 import { RecipeFullContainer } from "./containers/RecipeFullContainer";
 import { AddRecipeContainer } from "./components/AddRecipeContainer";
 import { EditRecipeContainer } from "./components/EditRecipeContainer";
+import { SignUpContainer } from "./containers/SignUpContainer";
 
 export default function Routing() {
     return (
@@ -19,6 +20,7 @@ export default function Routing() {
                 <Route path='/addrecipe' element={<AddRecipeContainer/>} />
                 <Route path='/recipe/edit/:id' element={<EditRecipeContainer/>} />
                 <Route path='/recipe/:id' element={<RecipeFullContainer/>} />
+                <Route path='/signup' element={<SignUpContainer/>} />
             </Routes>
         </BrowserRouter>
     );
