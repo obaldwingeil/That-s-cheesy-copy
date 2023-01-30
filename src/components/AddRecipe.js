@@ -9,7 +9,7 @@ export default function AddRecipe() {
   const [instruction, setInstruction] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState("");
   const [embedId, setEmbedId] = useState("");
   const [invalidURL, setInvalidURL] = useState(false);
 
@@ -40,14 +40,14 @@ export default function AddRecipe() {
     navigate('/');
   }
 
-  const onChangeImage = event => {
-    if (event.target.files && event.target.files[0]) {
-        let img = event.target.files[0];
-        setImage(
-          URL.createObjectURL(img)
-        );
-    }
-  }
+  // const onChangeImage = event => {
+  //   if (event.target.files && event.target.files[0]) {
+  //       let img = event.target.files[0];
+  //       setImage(
+  //         URL.createObjectURL(img)
+  //       );
+  //   }
+  // }
 
   function _getEmbedId(event) {
     if (event === "") {
@@ -97,8 +97,18 @@ export default function AddRecipe() {
           <br></br>
           <img width="400" src={image} />
           <br></br>
-          <h3>Select Image</h3>
-          <input type="file" name="myImage" onChange={onChangeImage} />
+          <FormGroup className="AddRecipe-input">
+            <Input
+              type="text"
+              value={image}
+              id="image-input"
+              className="AddRecipe-input"
+              placeholder="Image URL"
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </FormGroup>
+          {/* <h3>Select Image</h3> */}
+          {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
           <h3></h3>
           <div className="youtubeInput container">
             {invalidURL ? <div className="invalidURL">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/Login.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";  
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login({ user_id, handleLogin }) {
   const [failedLogin, setFailedLogin] = useState(false);
@@ -68,7 +68,7 @@ export default function Login({ user_id, handleLogin }) {
       <Button onClick={login} className="Login-btn">
         Login
       </Button>
-    </div>
+      </div>
       {failedLogin ?
         <div className="Error">
           <br></br>
@@ -79,6 +79,7 @@ export default function Login({ user_id, handleLogin }) {
           
         </div>
       }
-    </div>
+      <p className="login-p">Don't have an account? <Link className="login-link" to="/signup">Sign Up</Link></p>
+      </div>
   );
 }

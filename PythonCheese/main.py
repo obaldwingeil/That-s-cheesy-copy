@@ -5,7 +5,6 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 from bson.json_util import dumps, loads
 
-
 # These dependecies alpip3 low us to create the basic structure of our Flask application and connect to MongoDB
 app = Flask(__name__)  # Create the Flask application
 CORS(app)
@@ -19,18 +18,17 @@ user_collection = db.login
 
 ### Recipe class that uses ObjectId as its primary key: ###
 
-
 class Recipe:
-    def __init__(self, title, ingredients, instructions, personal_notes=None, image=None, _id=None):
+    def __init__(self, title, ingredients, instructions, personal_notes=None, image=None, counter=0, _id=None):
         self.title = title
         self.ingredients = ingredients
         self.instructions = instructions
         self.personal_notes = personal_notes
         self.image = image
+        self.counter = counter
         self._id = ObjectId() if _id is None else _id
 
 ### User Class ###
-
 
 class User:
     def __init__(self, username, password, _id=None):
@@ -41,13 +39,11 @@ class User:
 # Set up to create API endpoints for our Flask application
 ### Recipes ###
 
-
 @app.route('/recipes', methods=['GET'])
 def get_recipes():
     recipes = recipes_collection.find()
     recipes_list = list(recipes)
     return dumps(recipes_list), 200
-
 
 @app.route('/addrecipe', methods=['POST'])
 def add_recipe():
@@ -67,13 +63,11 @@ def get_recipe(id):
     recipe_obj = dict(recipe)
     return dumps(recipe_obj), 200
 
-
 @app.route('/recipe/<id>', methods=['PUT'])
 def update_recipe(id):
     recipe = request.json
     recipes_collection.update_one({'_id': ObjectId(id)}, {'$set': recipe})
     return dumps({'message': 'Recipe updated successfully'}), 200
-
 
 @app.route('/recipe/<id>', methods=['DELETE'])
 def delete_recipe(id):
@@ -101,6 +95,12 @@ def get_users():
     users = user_collection.find_one({ '$and': [{'username': login['username']}, {'password': login['password']}] })
     return dumps(users) # returns null if username and password do not match any records
 
+@app.route('/adduser', methods=['POST'])
+def add_user():
+    login = request.json
+    user_collection.insert_one(login)
+    return dumps({'message': 'User added successfully'}), 201
+
 @app.route('/favorites/<user_id>/<recipe_id>', methods=['GET'])
 def is_favorite(user_id, recipe_id):
     user = user_collection.find_one({'_id': ObjectId(user_id)})
@@ -121,6 +121,10 @@ def get_favorites(user_id):
             res.append(loads(get_recipe(recipe)[0]))
     return dumps(res)
 
+@app.route('/allfavorites', methods=['GET'])
+def get_all_favorites():
+    users = user_collection.find({}, {'_id': 1})
+    return dumps(users)
 
 @app.route('/notes/<user_id>/<recipe_id>', methods=['GET'])
 def get_notes(user_id, recipe_id):
