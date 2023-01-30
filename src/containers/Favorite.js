@@ -37,7 +37,7 @@ export default function Favorite({ user_id, recipe_id }) {
     }
 
     function _getCounter(id) {
-        fetch(`http://127.0.0.1:5000/recipe/${id}`, {
+        fetch(`http://127.0.0.1:8000/recipe/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
@@ -51,7 +51,7 @@ export default function Favorite({ user_id, recipe_id }) {
     }
 
     function updateCounter(id, temp) {
-        fetch(`http://127.0.0.1:5000/recipe/edit/${id}`, {
+        fetch(`http://127.0.0.1:8000/recipe/edit/${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
