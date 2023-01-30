@@ -37,7 +37,8 @@ export default function AddRecipe({ user_id }) {
           ingredients: ingredients, 
           instructions: instructions, 
           image: image,
-          embedId: embedId
+          embedId: embedId,
+          counter: "0"
         },
         notes: {
           note: note,

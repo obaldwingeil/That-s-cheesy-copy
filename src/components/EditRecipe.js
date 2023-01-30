@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../css/EditRecipe.css";
 import { Button, Form, FormGroup, Input } from "reactstrap";
 import withRouter from "../containers/WithRouter";
+import EditListItem from "./EditListItem";
 
 class EditRecipe extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class EditRecipe extends Component {
             ingredientLimitReached: false,
             instructionLimitReached: false,
             noIngredients: false,
-            noInstructions: false
+            noInstructions: false,
         }
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeIngredient = this.onChangeIngredient.bind(this);
@@ -156,22 +157,28 @@ class EditRecipe extends Component {
         return res;
     }
   
-    _updateIngredients() {
+    _updateIngredients(new_ingredient, index) {
         var new_ingredients = this.state.ingredients;
-        if (this.state.ingredient !== "") new_ingredients.push(this.state.ingredient);
+        if (new_ingredient !== "") {
+            if (index !== -1) new_ingredients[index] = new_ingredient;
+            else new_ingredients.push(new_ingredient);
+        }
         const limit = this._invalidList(new_ingredients);
         this.setState({
             ingredients: new_ingredients,
             ingredient: "",
             noIngredients: limit[0],
-            ingredientLimitReached: limit[1]
+            ingredientLimitReached: limit[1],
         });
         // console.log(new_ingredients);
     }
 
-    _updateInstructions() {
+    _updateInstructions(new_instruction, index) {
         var new_instructions = this.state.instructions;
-        if (this.state.instruction !== "") new_instructions.push(this.state.instruction);
+        if (new_instruction !== "") {
+            if (index !== -1) new_instructions[index] = new_instruction;
+            else new_instructions.push(new_instruction);
+        }
         const limit = this._invalidList(new_instructions);
         this.setState({
             instructions: new_instructions,
@@ -216,7 +223,7 @@ class EditRecipe extends Component {
         this.setState({
             ingredients: new_ingredients,
             noIngredients: limit[0],
-            ingredientLimitReached: limit[1]
+            ingredientLimitReached: limit[1],
         });
     }
 
@@ -233,18 +240,24 @@ class EditRecipe extends Component {
     }
 
     render() {
-        const ingredient_map = this.state.ingredients.map(i => {
-            return(<div>
-                <li className="ingredient">{i}
-                <button onClick={() => this._deleteIngredient(i)}>Delete Ingredient</button></li>
-                </div>)
+        const ingredient_map = this.state.ingredients.map((i, index) => {
+            return(<EditListItem
+                _delete={this._deleteIngredient}
+                item={i}
+                index={index}
+                _update={this._updateIngredients}
+                key={index}
+            />)
         })
 
-        const instruction_map = this.state.instructions.map(i => {
-            return(<div>
-                <li className="instruction">{i}
-                <button onClick={() => this._deleteInstruction(i)}>Delete Instruction</button></li>
-                </div>)
+        const instruction_map = this.state.instructions.map((i, index) => {
+            return(<EditListItem
+                _delete={this._deleteInstruction}
+                item={i}
+                index={index}
+                _update={this._updateInstructions}
+                key={index}
+            />)
         })
 
         return (
@@ -300,7 +313,7 @@ class EditRecipe extends Component {
                             onChange={this.onChangeIngredient}
                             />
                             <Button 
-                                onClick={this._updateIngredients} 
+                                onClick={() => this._updateIngredients(this.state.ingredient, -1)} 
                                 className="UpdateIngredient"
                                 disabled={this.state.ingredientLimitReached}
                             >
@@ -324,7 +337,7 @@ class EditRecipe extends Component {
                             onChange={this.onChangeInstruction}
                             />
                             <Button 
-                                onClick={this._updateInstructions} 
+                                onClick={() => this._updateInstructions(this.state.instruction, -1)} 
                                 className="UpdateInstruct"
                                 disabled={this.state.instructionLimitReached}
                             >
