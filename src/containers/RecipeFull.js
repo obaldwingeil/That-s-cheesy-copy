@@ -73,6 +73,7 @@ class RecipeFull extends Component {
         })  
         .then((response) => response.json())
         .then((data) => {
+            console.log('log', typeof user_id);
             // console.log('Successs:', data);
             this.setState({
                 notes: data

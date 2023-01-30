@@ -12,9 +12,8 @@ export default function RecipeListItem({ id, title, image, ingredients, instruct
 
     return(
         <div className="RecipeListItem" onClick={handleClick}>
+            <img className="recipeListImg" width="150" height="150" src={image} />
             <div className="title">{title}</div>
-            <img width="100" src={image} />
-            <h3></h3>
         </div>
     )
 

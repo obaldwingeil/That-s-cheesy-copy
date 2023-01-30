@@ -99,13 +99,17 @@ class EditRecipe extends Component {
     }
 
     onChangeImage(e) {
-        if (e.target.files && e.target.files[0]) {
-            let img = e.target.files[0];
-            this.setState({
-                image: URL.createObjectURL(img)
-            });
-        }
-    };
+        this.setState({ image: e.target.value })
+    }
+
+    // onChangeImage(e) {
+    //     if (e.target.files && e.target.files[0]) {
+    //         let img = e.target.files[0];
+    //         this.setState({
+    //             image: URL.createObjectURL(img)
+    //         });
+    //     }
+    // };
 
     onChangeNotes(e) {
         this.setState({ notes: e.target.value });
@@ -280,8 +284,18 @@ class EditRecipe extends Component {
                         <br></br>
                         <img width="400" src={this.state.image} />
                         <br></br>
-                        <h3>Select Image</h3>
-                        <input type="file" name="myImage" onChange={this.onChangeImage} />
+                        <FormGroup className="EditRecipe-input">
+                            <Input
+                            type="text"
+                            value={this.state.image}
+                            id="image-input"
+                            className="EditRecipe-input"
+                            placeholder="Image URL"
+                            onChange={this.onChangeImage}
+                            />
+                        </FormGroup>
+                        {/* <h3>Select Image</h3>
+                        <input type="file" name="myImage" onChange={this.onChangeImage} /> */}
                         <div className="youtubeInput container">
                             {this.state.invalidURL ? <div className="invalidURL">
                                 Invalid URL

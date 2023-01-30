@@ -53,13 +53,16 @@ class RecipeListHolder extends Component {
     render(){
         const recipe_list = this.state.recipes.map(recipe => {
             return (
-                <RecipeListItem 
-                    id={recipe._id.$oid} title={recipe.title} 
-                    image={recipe.image}
-                    ingredients={recipe.ingredients} 
-                    instructions={recipe.instructions}
-                    user_id={this.state.user_id}
-                />
+                <div className='carousel-container'>
+                    <RecipeListItem
+                        id={recipe._id.$oid}
+                        title={recipe.title} 
+                        image={recipe.image}
+                        ingredients={recipe.ingredients} 
+                        instructions={recipe.instructions}
+                        user_id={this.state.user_id}
+                    />
+                </div>
             )
         })
 

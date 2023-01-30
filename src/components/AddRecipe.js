@@ -56,14 +56,14 @@ export default function AddRecipe({ user_id }) {
     navigate('/');
   }
 
-  const onChangeImage = event => {
-    if (event.target.files && event.target.files[0]) {
-        let img = event.target.files[0];
-        setImage(
-          URL.createObjectURL(img)
-        );
-    }
-  }
+  // const onChangeImage = event => {
+  //   if (event.target.files && event.target.files[0]) {
+  //       let img = event.target.files[0];
+  //       setImage(
+  //         URL.createObjectURL(img)
+  //       );
+  //   }
+  // }
 
   function _getEmbedId(event) {
     if (event === "") {
@@ -160,11 +160,22 @@ export default function AddRecipe({ user_id }) {
               maxLength={64}
             />
           </FormGroup>
-          <div className="imageInput">
-            <img width="400" src={image} />
-            <h3>Select Image</h3>
-            <input type="file" name="myImage" onChange={onChangeImage} />
-          </div>
+          <br></br>
+          <img width="400" src={image} />
+          <br></br>
+          <FormGroup className="AddRecipe-input">
+            <Input
+              type="text"
+              value={image}
+              id="image-input"
+              className="AddRecipe-input"
+              placeholder="Image URL"
+              onChange={(e) => setImage(e.target.value)}
+            />
+          </FormGroup>
+          {/* <h3>Select Image</h3> */}
+          {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
+          <h3></h3>
           <div className="youtubeInput container">
             {invalidURL ? <div className="invalidURL">
               Invalid URL
