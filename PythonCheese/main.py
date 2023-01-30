@@ -95,6 +95,12 @@ def get_users():
     users = user_collection.find_one({ '$and': [{'username': login['username']}, {'password': login['password']}] })
     return dumps(users) # returns null if username and password do not match any records
 
+@app.route('/adduser', methods=['POST'])
+def add_user():
+    login = request.json
+    user_collection.insert_one(login)
+    return dumps({'message': 'User added successfully'}), 201
+
 @app.route('/favorites/<user_id>/<recipe_id>', methods=['GET'])
 def is_favorite(user_id, recipe_id):
     user = user_collection.find_one({'_id': ObjectId(user_id)})
