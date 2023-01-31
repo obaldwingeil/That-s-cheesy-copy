@@ -155,6 +155,41 @@ export default function AddRecipe({ user_id }) {
         <h1 className="AddRecipe-title">
           Add Your New Recipe Below
         </h1>
+        <div className="add-imagevid">
+            <Form>
+              <img width="300" className="addimg" src={image} />
+              <br></br>
+              <FormGroup className="AddRecipe-input">
+                <Input
+                  type="text"
+                  value={image}
+                  id="image-input"
+                  className="Add-image-input"
+                  placeholder="Image URL"
+                  onChange={(e) => setImage(e.target.value)}
+                />
+              </FormGroup>
+              {/* <h3>Select Image</h3> */}
+              {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
+              <h3></h3>
+              <div className="youtubeInput container">
+                {invalidURL ? <div id="invalidURL" className="Error">
+                  ** Invalid URL
+                </div> : <div/>}
+                <FormGroup className="AddRecipe-input">
+                  <Input
+                    type="text"
+                    defaultValue=""
+                    id="AddYoutubeURL-input"
+                    placeholder="Youtube URL"
+                    onBlur={(e) => _getEmbedId(e.target.value)}
+                    className="Add-yt-input"
+                  />
+                </FormGroup>
+              </div>
+            </Form>
+          </div>
+        <div className="addbody-container-recipe">
         <Form>
           {invalidTitle ? <div className="Error" id="invalidTitle">** Must include title</div> : <div/>}
           <FormGroup className="AddRecipe-input">
@@ -169,36 +204,6 @@ export default function AddRecipe({ user_id }) {
               maxLength={64}
             />
           </FormGroup>
-          <br></br>
-          <img width="400" src={image} />
-          <br></br>
-          <FormGroup className="AddRecipe-input">
-            <Input
-              type="text"
-              value={image}
-              id="image-input"
-              className="AddRecipe-input"
-              placeholder="Image URL"
-              onChange={(e) => setImage(e.target.value)}
-            />
-          </FormGroup>
-          {/* <h3>Select Image</h3> */}
-          {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
-          <h3></h3>
-          <div className="youtubeInput container">
-            {invalidURL ? <div id="invalidURL" className="Error">
-              ** Invalid URL
-            </div> : <div/>}
-            <FormGroup className="AddRecipe-input">
-              <Input
-                type="text"
-                defaultValue=""
-                id="AddYoutubeURL-input"
-                placeholder="Youtube URL"
-                onBlur={(e) => _getEmbedId(e.target.value)}
-              />
-            </FormGroup>
-          </div>
           <div className="ingredientDisplay">
             <h3>Ingredients</h3>
             <div className="itemMap">{ingredientMap}</div>
@@ -267,6 +272,7 @@ export default function AddRecipe({ user_id }) {
           >
           Add
         </Button>
+        </div>
       </div>
     </div>
   );

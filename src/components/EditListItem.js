@@ -18,6 +18,7 @@ export default function EditListItem({ _delete, item, index, _update }) {
                 type='text'
                 value={item}
                 onChange={(e) => {_update(e.target.value, index); _toggleEmpty(e.target.value)}}
+                className="EditListItem-input"
             />
             <button className="ListItembtn" onClick={(e) => {e.preventDefault(); _delete(item)}}>Delete</button>     
         </div>

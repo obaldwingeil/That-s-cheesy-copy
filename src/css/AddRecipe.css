@@ -1,6 +1,54 @@
 .AddRecipe {
-    text-align: center;
     font-family: 'https://fonts.googleapis.com/css?family=Actor';
+    font-size: 15px;
+}
+
+.add-imagevid {
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+
+.addimg {
+    padding-bottom: 15px;
+    padding-top: 18px;
+}
+
+.addbody-container-recipe {
+    display: inline-block;
+    text-align: left;
+    padding-left: 50px;
+    vertical-align: top;
+    width: 400px;
+    padding-bottom: 50px;
+}
+
+.Add-image-input {
+    font-family: 'https://fonts.googleapis.com/css?family=Actor';
+    box-sizing: border-box;
+    height: 30px;
+    width: 220px;
+    position: relative;
+    border: 1px solid #E6E6E6;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    color: #282828;
+    border-radius: 8px;
+}
+
+.Add-yt-input {
+    font-family: 'https://fonts.googleapis.com/css?family=Actor';
+    box-sizing: border-box;
+    height: 30px;
+    width: 208px;
+    position: relative;
+    border: 1px solid #E6E6E6;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    color: #282828;
+    border-radius: 8px;
 }
 
 .Error {
@@ -41,7 +89,7 @@
     margin: 4px;
 }
 
-.AddRecipe Input, #User-input {
+.AddRecipe Input, .AddRecipe #User-input {
     font-family: 'https://fonts.googleapis.com/css?family=Actor';
     box-sizing: border-box;
     height: 39px;
