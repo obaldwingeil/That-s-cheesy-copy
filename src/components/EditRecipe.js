@@ -261,124 +261,146 @@ class EditRecipe extends Component {
         })
 
         return (
-            <div className="main">
+            <div className="EditRecipe-main">
                 <div className="EditRecipe-header">
-                    <Form>
-                        <h1 className="title">{this.state.title}</h1>
-                        {this.state.invalidTitle ? <div className="invalidTitle">Invalid Title</div> : <div/>}
-                        <FormGroup className="EditRecipe-input">
-                            <Input
-                            type="text"
-                            defaultValue={this.state.title}
-                            id="title-input"
-                            className="EditRecipe-input"
-                            placeholder="Title"
-                            onBlur={this.onChangeTitle}
-                            maxLength={64}
-                            />
-                        </FormGroup>
-                        <br></br>
-                        <img width="400" src={this.state.image} />
-                        <br></br>
-                        <FormGroup className="EditRecipe-input">
-                            <Input
-                            type="text"
-                            value={this.state.image}
-                            id="image-input"
-                            className="EditRecipe-input"
-                            placeholder="Image URL"
-                            onChange={this.onChangeImage}
-                            />
-                        </FormGroup>
-                        {/* <h3>Select Image</h3>
-                        <input type="file" name="myImage" onChange={this.onChangeImage} /> */}
-                        <div className="youtubeInput container">
-                            {this.state.invalidURL ? <div className="invalidURL">
-                                Invalid URL
-                            </div> : <div/>}
+                    <h1 className="EditRecipe-Header">Edit Recipe</h1>
+                    <div className="edit-imagevid">
+                        <Form>
+                            <img width="300" className="editimg" src={this.state.image} />
                             <FormGroup className="AddRecipe-input">
-                            <Input
+                                <p>Image URL:  <Input
                                 type="text"
-                                id="AddYoutubeURL-input"
-                                placeholder="Youtube URL"
-                                onBlur={(e) => this._getEmbedId(e.target.value)}
-                                defaultValue={this.state.embedId === "" ? "" : "https://youtu.be/" + this.state.embedId}
-                            />
+                                value={this.state.image}
+                                id="image-input"
+                                className="Edit-image-input"
+                                placeholder="Image URL"
+                                onChange={this.onChangeImage}
+                                />
+                                </p>
                             </FormGroup>
-                        </div>
-                        <br></br>
-                        <div className="ingredientDisplay">
-                            <h3>Ingredients</h3>
-                            {ingredient_map}
-                            {this.state.ingredientLimitReached ? <div className="limitReached">Ingredient Limit Reached (Max: 10)</div>: <div/>}
-                            {this.state.noIngredients ? <div className="limitReached">Must include at least 1 ingredient</div> : <div />}
-                        </div>
-                        <br></br>
-                        <FormGroup className="EditRecipe-input"> 
-                            <Input
-                            type="text"
-                            value={this.state.ingredient}
-                            id="EditRecipe-input"
-                            placeholder="Ingredient"
-                            onChange={this.onChangeIngredient}
-                            />
-                            <Button 
-                                onClick={() => this._updateIngredients(this.state.ingredient, -1)} 
-                                className="UpdateIngredient"
-                                disabled={this.state.ingredientLimitReached}
-                            >
-                                Add Ingredient
+                            {/* <h3>Select Image</h3>
+                            <input type="file" name="myImage" onChange={this.onChangeImage} /> */}
+                            <div className="youtubeInput container">
+                                {this.state.invalidURL ? <div className="invalidURL">
+                                    Invalid URL
+                                </div> : <div/>}
+                                <FormGroup className="AddRecipe-input">
+                                    <p>YouTube URL:  <Input
+                                        type="text"
+                                        id="AddYoutubeURL-input"
+                                        className="Edit-yt-input"
+                                        placeholder="Youtube URL"
+                                        onBlur={(e) => this._getEmbedId(e.target.value)}
+                                        defaultValue={this.state.embedId === "" ? "" : "https://youtu.be/" + this.state.embedId}
+                                    />
+                                    </p>
+                                </FormGroup>
+                            </div>
+                        </Form>
+                    </div>
+                    <div className="editbody-container-recipe">
+                        <Form>
+                            <h1 className="edit-title">Title: {this.state.title}</h1>
+                            <div className="edit-title-padding">
+                                {this.state.invalidTitle ? <div className="invalidTitle">Invalid Title</div> : <div/>}
+                                <FormGroup className="EditRecipe-input">
+                                    <p>Title:  <Input
+                                    type="text"
+                                    defaultValue={this.state.title}
+                                    id="title-input"
+                                    className="Edit-title-input"
+                                    placeholder="Title"
+                                    onBlur={this.onChangeTitle}
+                                    maxLength={64}
+                                    />
+                                    </p>
+                                </FormGroup>
+                            </div>
+                            <div className="ingredientDisplay">
+                                <h3>Ingredients</h3>
+                                {ingredient_map}
+                                {this.state.ingredientLimitReached ? <div className="limitReached">Ingredient Limit Reached (Max: 10)</div>: <div/>}
+                                {this.state.noIngredients ? <div className="limitReached">Must include at least 1 ingredient</div> : <div />}
+                            </div>
+                            <br></br>
+                            <FormGroup className="EditRecipe-input"> 
+                                <div className="padded-input">
+                                    <Input
+                                    type="text"
+                                    value={this.state.ingredient}
+                                    id="EditRecipe-input"
+                                    className="Edit-Instruction-input"
+                                    placeholder="New Ingredient"
+                                    onChange={this.onChangeIngredient}
+                                    />
+                                </div>
+                                <Button 
+                                    onClick={() => this._updateIngredients(this.state.ingredient, -1)} 
+                                    className="UpdateIngredient"
+                                    disabled={this.state.ingredientLimitReached}
+                                >
+                                    Add
+                                </Button>
+                            </FormGroup>
+                            <br></br>
+                            <div className="instructionDisplay">
+                                <h3>Instructions</h3>
+                                {instruction_map}
+                                {this.state.instructionLimitReached ? <div className="limitReached">Instruction Limit Reached (Max: 10)</div>: <div/>}
+                                {this.state.noInstructions ? <div className="limitReached">Must include at least 1 instruction</div> : <div />}
+                            </div>
+                            <br></br>
+                            <FormGroup className="EditRecipe-input"> 
+                                <div className="padded-input">
+                                    <Input
+                                    type="text"
+                                    value={this.state.instruction}
+                                    id="EditRecipe-input"
+                                    className="Edit-Instruction-input"
+                                    placeholder="New Instruction"
+                                    onChange={this.onChangeInstruction}
+                                    />
+                                </div>
+                                <Button 
+                                    onClick={() => this._updateInstructions(this.state.instruction, -1)} 
+                                    className="UpdateIngredient"
+                                    disabled={this.state.instructionLimitReached}
+                                >
+                                    Add
+                                </Button>
+                            </FormGroup>
+                            <br></br>
+                            {this.state.noUser ? <div className="noUserMessage">Log in to add personal notes!</div> : <div className="noUserMessage">Add personal notes below:</div>}
+                            <div className="personalnotes">
+                                <FormGroup className="User-input"> 
+                                    <Input
+                                    type="textarea"
+                                    id="User-input"
+                                    placeholder="Notes"
+                                    className="edit-personalnotes"
+                                    maxLength={250}
+                                    onBlur={this.onChangeNotes}
+                                    defaultValue={this.state.notes}
+                                    disabled={this.state.noUser}
+                                    />
+                                </FormGroup>
+                            </div>
+                        </Form>
+                        <div className="cancel-div">
+                            <Button className="cancel_button" onClick={this._cancel}>
+                                Cancel
                             </Button>
-                        </FormGroup>
-                        <br></br>
-                        <div className="instructionDisplay">
-                            <h3>Instructions</h3>
-                            {instruction_map}
-                            {this.state.instructionLimitReached ? <div className="limitReached">Instruction Limit Reached (Max: 10)</div>: <div/>}
-                            {this.state.noInstructions ? <div className="limitReached">Must include at least 1 instruction</div> : <div />}
                         </div>
-                        <br></br>
-                        <FormGroup className="EditRecipe-input"> 
-                            <Input
-                            type="text"
-                            value={this.state.instruction}
-                            id="EditRecipe-input"
-                            placeholder="Instruction"
-                            onChange={this.onChangeInstruction}
-                            />
+                        <div className="update-div">
                             <Button 
-                                onClick={() => this._updateInstructions(this.state.instruction, -1)} 
-                                className="UpdateInstruct"
-                                disabled={this.state.instructionLimitReached}
+                                onClick={() => this.editRecipe(this.state.recipe_id)} 
+                                className="EditRecipe-update-btn"
+                                disabled={this.state.noIngredients || this.state.noInstructions || this.state.invalidTitle || this.state.invalidURL}
                             >
-                                Add Instruction
+                                Update Recipe
                             </Button>
-                        </FormGroup>
-                        <br></br>
-                        {this.state.noUser ? <div className="noUserMessage">Log in to add personal notes!</div> : <div/>}
-                        <FormGroup className="User-input"> 
-                            <Input
-                            type="textarea"
-                            id="User-input"
-                            placeholder="Personal Notes"
-                            maxLength={250}
-                            onBlur={this.onChangeNotes}
-                            defaultValue={this.state.notes}
-                            disabled={this.state.noUser}
-                            />
-                        </FormGroup>
-                    </Form>
-                    <br></br>
-                    <Button className="cancel_button" onClick={this._cancel}>
-                        Cancel
-                    </Button>
-                    <Button 
-                        onClick={() => this.editRecipe(this.state.recipe_id)} 
-                        className="EditRecipe"
-                        disabled={this.state.noIngredients || this.state.noInstructions || this.state.invalidTitle || this.state.invalidURL}
-                    >
-                        Update Recipe
-                    </Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

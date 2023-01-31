@@ -19,7 +19,7 @@ export default function EditListItem({ _delete, item, index, _update }) {
                 value={item}
                 onChange={(e) => {_update(e.target.value, index); _toggleEmpty(e.target.value)}}
             />
-            <button onClick={(e) => {e.preventDefault(); _delete(item)}}>Delete</button>     
+            <button className="ListItembtn" onClick={(e) => {e.preventDefault(); _delete(item)}}>Delete</button>     
         </div>
     );
 }
