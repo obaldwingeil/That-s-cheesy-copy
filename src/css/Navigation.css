@@ -3,10 +3,8 @@
     top: 0;
     width: 100%;
     overflow: auto;
-    padding: 20px;
-    height: 30px;
-    position: fixed;
-    font-family: 'https://fonts.googleapis.com/css?family=Actor';
+    height: auto;
+    padding-left: 10px;
 }
 
 .links {
@@ -27,12 +25,3 @@
     transform: scale(1.1);
     opacity: 0.7;
 }
-
-@media (max-width: 767px) {
-  .nav {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
