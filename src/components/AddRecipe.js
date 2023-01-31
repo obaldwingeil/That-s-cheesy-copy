@@ -150,13 +150,13 @@ export default function AddRecipe({ user_id }) {
   }
 
   return (
-    <div className="main">
+    <div className="AddRecipe">
       <div className="AddRecipe-header">
         <h1 className="AddRecipe-title">
           Add Your New Recipe Below
         </h1>
         <Form>
-          {invalidTitle ? <div className="invalidTitle">Must Include Title</div> : <div/>}
+          {invalidTitle ? <div className="Error" id="invalidTitle">** Must include title</div> : <div/>}
           <FormGroup className="AddRecipe-input">
             <Input
               type="text"
@@ -186,8 +186,8 @@ export default function AddRecipe({ user_id }) {
           {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
           <h3></h3>
           <div className="youtubeInput container">
-            {invalidURL ? <div className="invalidURL">
-              Invalid URL
+            {invalidURL ? <div id="invalidURL" className="Error">
+              ** Invalid URL
             </div> : <div/>}
             <FormGroup className="AddRecipe-input">
               <Input
@@ -201,9 +201,9 @@ export default function AddRecipe({ user_id }) {
           </div>
           <div className="ingredientDisplay">
             <h3>Ingredients</h3>
-            {ingredientMap}
-            {ingredientLimitReached ? <div className="limitReached">Ingredient Limit Reached (Max: 10)</div>: <div/>}
-            {noIngredients ? <div className="limitReached">Must include at least 1 ingredient</div> : <div />}
+            <div className="itemMap">{ingredientMap}</div>
+            {ingredientLimitReached ? <div className="Error" id="limitReached">** Ingredient Limit Reached (Max: 10)</div>: <div/>}
+            {noIngredients ? <div className="Error" id="limitReached">** Must include at least 1 ingredient</div> : <div />}
           </div>
           <FormGroup className="AddRecipe-input"> 
             <Input
@@ -224,9 +224,9 @@ export default function AddRecipe({ user_id }) {
           </FormGroup>
           <div className="instructionDisplay">
             <h3>Instructions</h3>
-            {instructionLimitReached ? <div className="limitReached">Instruction Limit Reached (Max: 10)</div>: <div/>}
-            {noInstructions ? <div className="limitReached">Must include at least 1 instruction</div> : <div />}
-            {instructionMap}
+            <div className="itemMap">{instructionMap}</div>
+            {instructionLimitReached ? <div className="Error" id="limitReached">** Instruction Limit Reached (Max: 10)</div>: <div/>}
+            {noInstructions ? <div className="Error" id="limitReached">** Must include at least 1 instruction</div> : <div />}
           </div>
           <FormGroup className="AddRecipe-input"> 
             <Input
