@@ -1,7 +1,7 @@
 import React from "react";
 import "../css/Home.css";
 import RecipeListHolder from "./RecipeListHolder";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 export default function Home({ user_id }) {
 
@@ -13,8 +13,11 @@ export default function Home({ user_id }) {
       <div className="Home-Recipes">
         <h3 className="Home-h3">My Saved Recipes:</h3>
         <RecipeListHolder saved={true} user_id={user_id}/>
-        <br></br>
+        <br />
         <h3>All Recipes:</h3>
+        <div className="add-btn">
+          <Link className="addrecipe-btn" to="/addrecipe">Add Recipe</Link>
+        </div>
         <RecipeListHolder saved={false} user_id={user_id}/>
       </div>
     </div>

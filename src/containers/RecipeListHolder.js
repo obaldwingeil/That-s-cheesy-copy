@@ -71,7 +71,7 @@ class RecipeListHolder extends Component {
                 {recipe_list.length !== 0 ? recipe_list : 
                 <div className="noRecipes"> No Recipes Yet! </div>}
                 {this.state.no_user ? <div className="loginMessage">
-                    <Link to="/login">Log in</Link> to save your favorites!
+                    <Link className="login-link-rlh" to="/login">Log in</Link> to save your favorites!
                     </div> : <div/>}
             </div>
         )

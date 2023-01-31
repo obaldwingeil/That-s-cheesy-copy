@@ -150,128 +150,151 @@ export default function AddRecipe({ user_id }) {
   }
 
   return (
-    <div className="AddRecipe">
-      <div className="AddRecipe-header">
-        <h1 className="AddRecipe-title">
+    <div className="EditRecipe-main">
+      <div className="EditRecipe-header">
+        <h1 className="EditRecipe-Header">
           Add Your New Recipe Below
         </h1>
-        <div className="add-imagevid">
-            <Form>
-              <img width="300" className="addimg" src={image} />
-              <br></br>
+        <div className="edit-imagevid">
+          <Form>
+            <img width="300" className="editimg" src={image} />
+            <br></br>
+            <FormGroup className="AddRecipe-input">
+              <p>Image URL:  <Input
+                type="text"
+                value={image}
+                id="image-input"
+                className="Edit-image-input"
+                placeholder="Image URL"
+                onChange={(e) => setImage(e.target.value)}
+              />
+              </p>
+            </FormGroup>
+            {/* <h3>Select Image</h3> */}
+            {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
+            <h3></h3>
+            <div className="youtubeInput container">
+              {invalidURL ? <div id="invalidURL" className="Error">
+                ** Invalid URL
+              </div> : <div/>}
               <FormGroup className="AddRecipe-input">
+                <p>YouTube URL:  <Input
+                  type="text"
+                  defaultValue=""
+                  id="AddYoutubeURL-input"
+                  className="Edit-yt-input"
+                  placeholder="YouTube URL"
+                  onBlur={(e) => _getEmbedId(e.target.value)}
+                />
+                </p>
+              </FormGroup>
+            </div>
+          </Form>
+        </div>
+        <div className="editbody-container-recipe">
+          <Form>
+            <h1 className="edit-title">Title: {title}</h1>
+            <div className="edit-title-padding">
+              {invalidTitle ? <div className="invalidTitle" id="invalidTitle">Must include title</div> : <div/>}
+              <FormGroup className="EditRecipe-input">
+                <p>Title:  <Input
+                  type="text"
+                  defaultValue={title}
+                  id="title-input"
+                  className="Edit-title-input"
+                  placeholder="Title"
+                  onBlur={(e) => onChangeTitle(e)}
+                  required
+                  maxLength={64}
+                />
+                </p>
+              </FormGroup>
+            </div>
+            <div className="ingredientDisplay">
+              <h3>Ingredients</h3>
+              {ingredientMap}
+              {ingredientLimitReached ? <div className="limitReached" id="limitReached">Ingredient Limit Reached (Max: 10)</div>: <div/>}
+              {noIngredients ? <div className="limitReached" id="limitReached">Must include at least 1 ingredient</div> : <div />}
+            </div>
+            <br></br>
+            <FormGroup className="EditRecipe-input"> 
+              <div className="padded-input">
                 <Input
                   type="text"
-                  value={image}
-                  id="image-input"
-                  className="Add-image-input"
-                  placeholder="Image URL"
-                  onChange={(e) => setImage(e.target.value)}
+                  value={ingredient}
+                  id="EditRecipe-input"
+                  className="Edit-Instruction-input"
+                  placeholder="Ingredient"
+                  onChange={(e) => setIngredient(e.target.value)}
+                  required
+                />
+              </div>
+              <Button 
+                onClick={() => _updateIngredients(true, ingredient, -1)} 
+                className="UpdateIngredient"
+                disabled={ingredientLimitReached}
+                >
+                  Add
+              </Button>
+            </FormGroup>
+            <br></br>
+            <div className="instructionDisplay">
+              <h3>Instructions</h3>
+              {instructionMap}
+              {instructionLimitReached ? <div className="limitReached" id="limitReached">Instruction Limit Reached (Max: 10)</div>: <div/>}
+              {noInstructions ? <div className="limitReached" id="limitReached">Must include at least 1 instruction</div> : <div />}
+            </div>
+            <br></br>
+            <FormGroup className="EditRecipe-input"> 
+              <div className="padded-input">
+                <Input
+                  type="text"
+                  value={instruction}
+                  id="EditRecipe-input"
+                  className="Edit-Instruction-input"
+                  placeholder="Instruction"
+                  onChange={(e) => setInstruction(e.target.value)}
+                  required
+                />
+              </div>
+              <Button 
+                onClick={() => _updateInstructions(true, instruction, -1)} 
+                className="UpdateIngredient"
+                disabled={instructionLimitReached}
+              >
+                  Add
+              </Button>
+            </FormGroup>
+            <br></br>
+            {noUser ? <div className="noUserMessage">Log in to add personal notes!</div> : <div/>}
+            <div className="personalnotes">
+              <FormGroup className="User-input"> 
+                <Input
+                  type="textarea"
+                  id="User-input"
+                  placeholder="Notes"
+                  className="edit-personalnotes"
+                  maxLength={250}
+                  onChange={(e) => setNote(e.target.value)}
+                  disabled={noUser}
                 />
               </FormGroup>
-              {/* <h3>Select Image</h3> */}
-              {/* <input type="file" name="myImage" onChange={onChangeImage} /> */}
-              <h3></h3>
-              <div className="youtubeInput container">
-                {invalidURL ? <div id="invalidURL" className="Error">
-                  ** Invalid URL
-                </div> : <div/>}
-                <FormGroup className="AddRecipe-input">
-                  <Input
-                    type="text"
-                    defaultValue=""
-                    id="AddYoutubeURL-input"
-                    placeholder="Youtube URL"
-                    onBlur={(e) => _getEmbedId(e.target.value)}
-                    className="Add-yt-input"
-                  />
-                </FormGroup>
-              </div>
-            </Form>
+            </div>
+          </Form>
+          <div className="cancel-div">
+            <Button className="cancel_button" onClick={cancel}>
+              Cancel
+            </Button>
           </div>
-        <div className="addbody-container-recipe">
-        <Form>
-          {invalidTitle ? <div className="Error" id="invalidTitle">** Must include title</div> : <div/>}
-          <FormGroup className="AddRecipe-input">
-            <Input
-              type="text"
-              defaultValue={title}
-              id="title-input"
-              className="AddRecipe-input"
-              placeholder="Title"
-              onBlur={(e) => onChangeTitle(e)}
-              required
-              maxLength={64}
-            />
-          </FormGroup>
-          <div className="ingredientDisplay">
-            <h3>Ingredients</h3>
-            <div className="itemMap">{ingredientMap}</div>
-            {ingredientLimitReached ? <div className="Error" id="limitReached">** Ingredient Limit Reached (Max: 10)</div>: <div/>}
-            {noIngredients ? <div className="Error" id="limitReached">** Must include at least 1 ingredient</div> : <div />}
-          </div>
-          <FormGroup className="AddRecipe-input"> 
-            <Input
-              type="text"
-              value={ingredient}
-              id="AddRecipe-input"
-              placeholder="Ingredient"
-              onChange={(e) => setIngredient(e.target.value)}
-              required
-            />
+          <div className="update-div">
             <Button 
-              onClick={() => _updateIngredients(true, ingredient, -1)} 
-              className="AddIngredient"
-              disabled={ingredientLimitReached}
+              onClick={addrecipe} 
+              className="EditRecipe-update-btn"
+              disabled={noIngredients || noInstructions || invalidTitle}
               >
-                Add Ingredient
+              Add Recipe
             </Button>
-          </FormGroup>
-          <div className="instructionDisplay">
-            <h3>Instructions</h3>
-            <div className="itemMap">{instructionMap}</div>
-            {instructionLimitReached ? <div className="Error" id="limitReached">** Instruction Limit Reached (Max: 10)</div>: <div/>}
-            {noInstructions ? <div className="Error" id="limitReached">** Must include at least 1 instruction</div> : <div />}
           </div>
-          <FormGroup className="AddRecipe-input"> 
-            <Input
-              type="text"
-              value={instruction}
-              id="AddRecipe-input"
-              placeholder="Instruction"
-              onChange={(e) => setInstruction(e.target.value)}
-              required
-            />
-            <Button 
-              onClick={() => _updateInstructions(true, instruction, -1)} 
-              className="AddInstruct"
-              disabled={instructionLimitReached}
-            >
-                Add Instruction
-            </Button>
-          </FormGroup>
-          {noUser ? <div className="noUserMessage">Log in to add personal notes!</div> : <div/>}
-          <FormGroup className="User-input"> 
-            <Input
-              type="textarea"
-              id="User-input"
-              placeholder="Personal Notes"
-              maxLength={250}
-              onChange={(e) => setNote(e.target.value)}
-              disabled={noUser}
-            />
-          </FormGroup>
-        </Form>
-        <Button className="cancel_button" onClick={cancel}>
-          Cancel
-        </Button>
-        <Button 
-          onClick={addrecipe} 
-          className="AddRecipe"
-          disabled={noIngredients || noInstructions || invalidTitle}
-          >
-          Add
-        </Button>
         </div>
       </div>
     </div>
