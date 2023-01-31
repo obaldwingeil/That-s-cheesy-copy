@@ -27,10 +27,10 @@ class RecipeListHolder extends Component {
                     no_user: true
                 });
             } else {
-                this._getRecipes(`http://127.0.0.1:5000/favorites/${user_id}`);
+                this._getRecipes(`http://127.0.0.1:8000/favorites/${user_id}`);
             }
         } else {
-            this._getRecipes('http://127.0.0.1:5000/recipes');
+            this._getRecipes('http://127.0.0.1:8000/recipes');
         }
     }
 
@@ -53,13 +53,16 @@ class RecipeListHolder extends Component {
     render(){
         const recipe_list = this.state.recipes.map(recipe => {
             return (
-                <RecipeListItem 
-                    id={recipe._id.$oid} title={recipe.title} 
-                    image={recipe.image}
-                    ingredients={recipe.ingredients} 
-                    instructions={recipe.instructions}
-                    user_id={this.state.user_id}
-                />
+                <div className='carousel-container'>
+                    <RecipeListItem
+                        id={recipe._id.$oid}
+                        title={recipe.title} 
+                        image={recipe.image}
+                        ingredients={recipe.ingredients} 
+                        instructions={recipe.instructions}
+                        user_id={this.state.user_id}
+                    />
+                </div>
             )
         })
 
