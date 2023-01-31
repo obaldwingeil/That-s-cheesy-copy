@@ -12,14 +12,15 @@ export default function AddListItem({ item, index, _update }) {
     }
 
     return (
-        <div className="AddListItem">
+        <div className="EditListItem">
             {empty ? <div className="emptyListItem">Item cannot be empty</div> : <div/>}
             <Input
                 type='text'
                 value={item}
                 onChange={(e) => {_update(true, e.target.value, index); _toggleEmpty(e.target.value)}}
+                className="EditListItem-input"
             />
-            <button onClick={() => _update(false, item, index)}>Delete</button>     
+            <button className="ListItembtn" onClick={() => _update(false, item, index)}>Delete</button>     
         </div>
     );
 }
