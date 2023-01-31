@@ -59,7 +59,7 @@ def add_recipe():
 
 def add_notes(user_id, recipe_id, note):
     query = {}
-    query['notes.' + recipe_id] =  note['note']
+    query['notes.' + recipe_id] = note
     user_collection.update_one({'_id': ObjectId(user_id)}, {'$set': query})
 
 @app.route('/recipe/edit/<id>', methods=['POST'])
