@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Checkout Code') {
       steps {
-        git 'https://github.com/obaldwingeil/That-s-cheesy-copy'
+        git(url: 'https://github.com/obaldwingeil/That-s-cheesy-copy', branch: 'main')
       }
     }
 
