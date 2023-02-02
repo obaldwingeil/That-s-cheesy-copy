@@ -21,6 +21,12 @@ pipeline {
           }
         }
 
+        stage('Run Backend') {
+          steps {
+            sh 'cd PythonCheese python3 main.py'
+          }
+        }
+
       }
     }
 
