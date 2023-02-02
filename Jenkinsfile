@@ -17,8 +17,7 @@ pipeline {
 
         stage('Install') {
           steps {
-            sh '''npm i 
-cd PythonCheese python3 main.py'''
+            sh 'npm i && cd PythonCheese python3 main.py'
           }
         }
 
