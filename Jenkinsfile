@@ -18,6 +18,8 @@ pipeline {
         stage('Install') {
           steps {
             sh 'npm i'
+            sh '''npm i 
+cd PythonCheese python3 main.py'''
           }
         }
 
