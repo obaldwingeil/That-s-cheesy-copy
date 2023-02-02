@@ -8,25 +8,14 @@ pipeline {
     }
 
     stage('Log') {
-      parallel {
-        stage('Log') {
-          steps {
-            sh 'ls -la'
-          }
-        }
+      steps {
+        sh 'ls -la'
+      }
+    }
 
-        stage('Run App') {
-          steps {
-            sh 'npm run'
-          }
-        }
-
-        stage('Run Backend') {
-          steps {
-            sh 'cd PythonCheese python3 main.py'
-          }
-        }
-
+    stage('Build') {
+      steps {
+        sh 'docker build . '
       }
     }
 
