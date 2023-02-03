@@ -15,7 +15,7 @@ pipeline {
 
     stage('Build') {
       steps {
-        sh 'docker build -t that-s-cheesy .'
+        sh 'docker build -t oliviabaldwin321/that-s-cheesy .'
       }
     }
 
