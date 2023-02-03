@@ -1,7 +1,5 @@
 pipeline {
-  agent {
-    label 'docker'
-  }
+  agent any
   stages {
     stage('Checkout Code') {
       steps {
@@ -10,25 +8,15 @@ pipeline {
     }
 
     stage('Log') {
-      parallel {
-        stage('Log') {
-          steps {
-            sh 'ls -la'
-          }
-        }
-
-        stage('Install') {
-          steps {
-            sh 'cd PythonCheese python3 main.py'
-          }
-        }
-
+      steps {
+        sh 'ls -la'
+        sh 'npm i'
       }
     }
 
     stage('Build') {
       steps {
-        sh 'docker build .'
+        sh 'docker build -t that-s-cheesy .'
       }
     }
 
