@@ -1,23 +1,15 @@
 pipeline {
-  agent any
-  stages {
-    stage('Checkout Code') {
-      steps {
-        git(url: 'https://github.com/obaldwingeil/That-s-cheesy-copy', branch: 'main')
-      }
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim' 
+            args '-p 3000:3000' 
+        }
     }
-
-    stage('Log') {
-      steps {
-        sh 'ls -la'
-      }
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'npm install' 
+            }
+        }
     }
-
-    stage('Build') {
-      steps {
-        sh 'docker build -t oliviabaldwin321/that-s-cheesy .'
-      }
-    }
-
-  }
 }
