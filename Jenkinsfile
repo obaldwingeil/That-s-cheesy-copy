@@ -17,6 +17,17 @@ pipeline {
         }
         stage('Run App') {
             parallel {
+                stage('Run Backend') {
+                    agent {
+                        docker {
+                            image 'python:3.10.7-alpine'
+                            args '-p 8000:8000'
+                        }
+                    }
+                    steps {
+                        sh 'cd PythonCheese python3 main.py'
+                    }
+                }
                 stage('Run Front-End') {
                     agent {
                         docker {
@@ -29,17 +40,6 @@ pipeline {
                     }
                     steps {
                         sh 'npm start & sleep 1; echo $! > .pidfile'
-                    }
-                }
-                stage('Run Backend') {
-                    agent {
-                        docker {
-                            image 'python:3.10.7-alpine'
-                            args '-p 8000:8000'
-                        }
-                    }
-                    steps {
-                        sh 'cd PythonCheese python3 main.py'
                     }
                 }
             }
