@@ -5,6 +5,9 @@ pipeline {
             args '-p 3000:3000'
         }
     }
+    environment {
+        CI = 'false npm run build'
+    }
     stages {
         stage('Build') { 
             steps {
@@ -13,7 +16,7 @@ pipeline {
         }
         stage('Run Front-End') {
             steps {
-                sh 'npm run build && npm start'
+                sh 'npm start'
             }
         }
     }
