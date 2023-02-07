@@ -26,7 +26,7 @@ pipeline {
                 stage('Run Backend') {
                     agent {
                         docker {
-                            image 'python:lts'
+                            image 'python:3.10.7-alpine'
                             args '-p 8000:8000'
                         }
                     }
