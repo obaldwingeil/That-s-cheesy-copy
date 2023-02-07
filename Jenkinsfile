@@ -41,7 +41,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese; sudo pip3 install -r requirements.txt;'
+                        sh 'cd PythonCheese;'
                         sh 'python3 main.py'
                     }
                 }
