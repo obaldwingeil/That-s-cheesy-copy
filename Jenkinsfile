@@ -11,5 +11,10 @@ pipeline {
                 sh 'npm install' 
             }
         }
+        stage('Run Front-End') {
+            steps {
+                sh 'npm run build && npm start'
+            }
+        }
     }
 }
