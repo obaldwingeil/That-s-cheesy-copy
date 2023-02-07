@@ -18,15 +18,15 @@ pipeline {
         stage('Run App') {
             parallel {
                 stage('Run Front-End') {
-                        agent {
-                            docker {
-                                image 'node:lts-bullseye-slim' 
-                                args '-p 3000:3000'
-                            }
+                    agent {
+                        docker {
+                            image 'node:lts-bullseye-slim' 
+                            args '-p 3000:3000'
                         }
-                        environment {
-                            CI = 'false npm run build'
-                        }
+                    }
+                    environment {
+                        CI = 'false npm run build'
+                    }
                     steps {
                         sh 'npm start & sleep 1; echo $! > .pidfile'
                         input message: 'Finished using the web site? (Click "Proceed" to continue)'
@@ -41,6 +41,7 @@ pipeline {
                         }
                     }
                     steps {
+                        sh 'pip3 install -r requirements.txt'
                         sh 'cd PythonCheese; python main.py'
                     }
                 }
