@@ -41,8 +41,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese;'
-                        sh 'python3 main.py'
+                        sh 'cd PythonCheese python3 main.py'
                     }
                 }
             }
