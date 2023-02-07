@@ -41,8 +41,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese; python3 -m venv venv & sleep 1;'
-                        sh '. venv/bin/activate; pip3 install -r requirements.txt;'
+                        sh 'cd PythonCheese; python3 -m pip3 install -r requirements.txt;'
                         sh 'python3 main.py'
                     }
                 }
