@@ -24,8 +24,14 @@ pipeline {
                     }
                 }
                 stage('Run Backend') {
+                    agent {
+                        docker {
+                            image 'python'
+                            args '-p 8000:8000'
+                        }
+                    }
                     steps {
-                        sh 'cd PythonCheese; python3 main.py'
+                        sh 'cd PythonCheese; python main.py'
                     }
                 }
             }
