@@ -16,7 +16,9 @@ pipeline {
         }
         stage('Run Front-End') {
             steps {
-                sh 'npm start'
+                sh 'npm start & echo $! > .pidfile'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
