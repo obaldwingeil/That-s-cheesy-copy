@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        CI = 'true'
+        CI = 'false npm run build'
     }
     stages {
         stage('Build') { 
@@ -16,14 +16,14 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh './jenkins/scripts/test.sh'
+                sh 'npm test'
             }
         }
         stage('Run Front-End') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh 'npm start sleep 1 echo $! > .pidfile'
                 input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                sh './jenkins/scripts/kill.sh'
+                sh 'kill $(cat .pidfile)'
             }
         }
     }
