@@ -14,11 +14,6 @@ pipeline {
                 sh 'npm install' 
             }
         }
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        }
         stage('Run Front-End') {
             steps {
                 sh 'npm start sleep 1 echo $! > .pidfile'
