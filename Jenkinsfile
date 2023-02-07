@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        CI = 'false npm run build'
+        CI = 'false'
     }
     stages {
         stage('Build') { 
