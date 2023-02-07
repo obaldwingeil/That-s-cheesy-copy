@@ -41,7 +41,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese; pip3 install -r requirements.txt; python main.py'
+                        sh 'cd PythonCheese; pip3 install --user -r requirements.txt; python3 main.py'
                     }
                 }
             }
