@@ -39,7 +39,7 @@ pipeline {
                         CI = 'false npm run build'
                     }
                     steps {
-                        sh 'npm start & sleep 1; echo $! > .pidfile'
+                        sh 'nohup npm start & sleep 1; echo $! > .pidfile'
                         input message: 'Finished using the web site? (Click "Proceed" to continue)'
                         sh 'kill $(cat .pidfile)'
                     }
