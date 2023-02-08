@@ -25,7 +25,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese nohup python3 main.py'
+                        sh 'cd PythonCheese nohup python3 main.py > log.txt 2>&1 &'
                     }
                 }
                 stage('Run Front-End') {
