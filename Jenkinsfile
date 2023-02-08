@@ -28,6 +28,18 @@ pipeline {
                         sh 'cd PythonCheese nohup python3 main.py > log.txt 2>&1 &'
                     }
                 }
+                post {
+                    always {
+                        echo 'The pipeline completed'
+                    }
+                    success {                   
+                        echo "Flask Application Up and running!!"
+                    }
+                    failure {
+                        echo 'Build stage failed'
+                        error('Stopping early…')
+                    }
+                }
                 stage('Run Front-End') {
                     agent {
                         docker {
