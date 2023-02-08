@@ -25,7 +25,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese nohup python3 main.py > log.txt 2>&1 &'
+                        sh 'cd PythonCheese python3 main.py'
                     }
                 }
                 stage('Run Front-End') {
@@ -39,23 +39,11 @@ pipeline {
                         CI = 'false npm run build'
                     }
                     steps {
-                        sh 'nohup npm start & sleep 1; echo $! > .pidfile'
+                        sh 'npm start & sleep 1; echo $! > .pidfile'
                     }
                 }
             }
 
-        }
-    }
-    post {
-        always {
-            echo 'The pipeline completed'
-        }
-        success {                   
-            echo "Flask Application Up and running!!"
-        }
-        failure {
-            echo 'Build stage failed'
-            error('Stopping early…')
         }
     }
 }
