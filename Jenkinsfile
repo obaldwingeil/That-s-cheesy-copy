@@ -25,7 +25,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese python3 main.py'
+                        sh 'cd PythonCheese nohup python3 main.py'
                     }
                 }
                 stage('Run Front-End') {
@@ -39,7 +39,9 @@ pipeline {
                         CI = 'false npm run build'
                     }
                     steps {
-                        sh 'forever start index.js'
+                        sh 'npm start & sleep 1; echo $! > .pidfile'
+                        input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                        sh 'kill $(cat .pidfile)'
                     }
                 }
             }
