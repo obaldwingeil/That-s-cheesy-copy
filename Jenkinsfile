@@ -40,8 +40,6 @@ pipeline {
                     }
                     steps {
                         sh 'nohup npm start & sleep 1; echo $! > .pidfile'
-                        input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                        sh 'kill $(cat .pidfile)'
                     }
                 }
             }
