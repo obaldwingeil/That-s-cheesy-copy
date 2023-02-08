@@ -39,7 +39,7 @@ pipeline {
                         CI = 'false npm run build'
                     }
                     steps {
-                        sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start & sleep 1; echo $! > .pidfile'
+                        sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start &'
                     }
                 }
             }
