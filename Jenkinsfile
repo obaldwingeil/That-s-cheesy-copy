@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-        CI = 'true'
+        CI = 'false'
         Home = '.'
         npm_config_cache = 'npm-cache'
     }
