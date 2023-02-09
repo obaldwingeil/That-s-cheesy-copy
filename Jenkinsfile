@@ -39,9 +39,8 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese python3 main.py & sleep 1; echo $! > .pidfile'
+                        sh 'cd PythonCheese python3 main.py &'
                         input message: 'Finished using the server? (Click "Proceed" to continue)'
-                        sh 'kill $(cat .pidfile)'
                     }
                 }
             }
