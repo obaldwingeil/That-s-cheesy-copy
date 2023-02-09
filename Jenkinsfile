@@ -24,8 +24,9 @@ pipeline {
         stage('Production') {
             steps {
                 withAWS(region:'us-west-2',credentials:'cheesy-aws-jenkins-id') {
-                s3Delete(bucket: 'cheesyawsbucket', path:'**/*')
-                s3Upload(bucket: 'cheesyawsbucket', workingDir:'build', includePathPattern:'**/*');
+                    s3Delete(bucket: 'cheesyawsbucket', path:'**/*')
+                    s3Upload(bucket: 'cheesyawsbucket', workingDir:'build', includePathPattern:'**/*');
+                }
             }
         }
     }
