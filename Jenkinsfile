@@ -39,7 +39,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese python3 main.py &'
+                        sh 'cd PythonCheese python3 main.py'
                         input message: 'Finished using the server? (Click "Proceed" to continue)'
                     }
                 }
