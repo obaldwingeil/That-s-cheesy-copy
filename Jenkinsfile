@@ -1,49 +1,32 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:lts-bullseye-slim' 
+            args '-p 3000:3000'
+        }
+    }
+    environment {
+        CI = 'true'
+        Home = '.'
+        npm_config_cache = 'npm-cache'
+    }
     stages {
         stage('Build') { 
-                agent {
-                    docker {
-                        image 'node:lts-bullseye-slim' 
-                        args '-p 3000:3000'
-                    }
-                }
-                environment {
-                    CI = 'false npm run build'
-                }
             steps {
                 sh 'npm install' 
             }
         }
-        stage('Run App') {
-            parallel {
-                stage('Run Backend') {
-                    agent {
-                        docker {
-                            image 'python:3.10.7-alpine'
-                            args '-p 8000:8000'
-                        }
-                    }
-                    steps {
-                        sh 'cd PythonCheese python3 main.py'
-                    }
-                }
-                stage('Run Front-End') {
-                    agent {
-                        docker {
-                            image 'node:lts-bullseye-slim' 
-                            args '-p 3000:3000'
-                        }
-                    }
-                    environment {
-                        CI = 'false npm run build'
-                    }
-                    steps {
-                        sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start &'
-                    }
-                }
+        stage('Create Build Artifacts') {
+            steps {
+                sh 'npm run build'
             }
-
+        }
+        stage('Production') {
+            steps {
+                withAWS(region:'us-west-2',credentials:'cheesy-aws-jenkins-id') {
+                s3Delete(bucket: 'cheesyawsbucket', path:'**/*')
+                s3Upload(bucket: 'cheesyawsbucket', workingDir:'build', includePathPattern:'**/*');
+            }
         }
     }
 }
