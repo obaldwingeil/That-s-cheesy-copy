@@ -22,10 +22,27 @@ pipeline {
             }
         }
         stage('Production') {
-            steps {
-                withAWS(region:'us-west-2',credentials:'cheesy-aws-jenkins-id') {
-                    s3Delete(bucket: 'cheesyawsbucket', path:'**/*')
-                    s3Upload(bucket: 'cheesyawsbucket', workingDir:'build', includePathPattern:'**/*');
+            parallel {
+                stage('Front-End') {
+                    steps {
+                        withAWS(region:'us-west-2',credentials:'cheesy-aws-jenkins-id') {
+                            s3Delete(bucket: 'cheesyawsbucket', path:'**/*')
+                            s3Upload(bucket: 'cheesyawsbucket', workingDir:'build', includePathPattern:'**/*');
+                        }
+                    }
+                }
+                stage('Backend') {
+                    agent {
+                        docker {
+                            image 'python:3.10.7-alpine'
+                            args '-p 8000:8000'
+                        }
+                    }
+                    steps {
+                        sh 'cd PythonCheese python3 main.py & sleep 1; echo $! > .pidfile'
+                        input message: 'Finished using the server? (Click "Proceed" to continue)'
+                        sh 'kill $(cat .pidfile)'
+                    }
                 }
             }
         }
