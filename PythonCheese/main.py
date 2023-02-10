@@ -159,4 +159,4 @@ def update_note(user_id, recipe_id):
     return dumps({'message': 'Successfully updated note'}), 201
 
 if __name__ == "__main__":
-    app.run(port=8001, debug=True, host="0.0.0.0")
+    app.run(port=8000, debug=True, host="0.0.0.0")
