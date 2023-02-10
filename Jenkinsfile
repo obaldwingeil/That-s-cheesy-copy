@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:lts-bullseye-slim' 
-            args '-p 3000:3000'
-        }
-    }
+    agent any
     environment {
         CI = 'false'
         Home = '.'
@@ -12,11 +7,23 @@ pipeline {
     }
     stages {
         stage('Build') { 
+            agent {
+                docker {
+                    image 'node:lts-bullseye-slim' 
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 sh 'npm install' 
             }
         }
         stage('Create Build Artifacts') {
+            agent {
+                docker {
+                    image 'node:lts-bullseye-slim' 
+                    args '-p 3000:3000'
+                }
+            }
             steps {
                 sh 'npm run build'
             }
@@ -24,6 +31,12 @@ pipeline {
         stage('Production') {
             parallel {
                 stage('Front-End') {
+                    agent {
+                        docker {
+                            image 'node:lts-bullseye-slim' 
+                            args '-p 3000:3000'
+                        }
+                    }
                     steps {
                         withAWS(region:'us-west-2',credentials:'cheesy-aws-jenkins-id') {
                             s3Delete(bucket: 'cheesyawsbucket', path:'**/*')
