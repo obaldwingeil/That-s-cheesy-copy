@@ -45,15 +45,8 @@ pipeline {
                     }
                 }
                 stage('Backend') {
-                    agent {
-                        docker {
-                            image 'python:3.10.7-alpine'
-                            args '-p 8000:8000'
-                        }
-                    }
                     steps {
-                        sh 'cd PythonCheese' 
-                        sh 'sudo nohup python3 main.py > log.txt 2>&1 &'
+                        sh 'docker build -f PythonCheese/Dockerfile -t cheesy-backend-jenkins .'
                     }
                 }
             }
