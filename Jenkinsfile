@@ -48,6 +48,7 @@ pipeline {
                     steps {
                         sh 'cd PythonCheese'
                         sh 'docker build -t cheesy-backend-jenkins .'
+                        sh 'docker run -p 8000:8000 cheesy-backend-jenkins'
                     }
                 }
             }
