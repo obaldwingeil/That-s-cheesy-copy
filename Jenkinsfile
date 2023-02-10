@@ -44,7 +44,8 @@ pipeline {
                 }
             }
         }
-        post {
+    }
+    post {
         always {
             echo 'The pipeline completed'
         }
@@ -55,6 +56,5 @@ pipeline {
             echo 'Build stage failed'
             error('Stopping early…')
         }
-      }
     }
 }
