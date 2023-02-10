@@ -46,6 +46,7 @@ pipeline {
                 }
                 stage('Backend') {
                     steps {
+                        sh 'cd PythonCheese'
                         sh 'docker build -f PythonCheese/Dockerfile -t cheesy-backend-jenkins .'
                     }
                 }
