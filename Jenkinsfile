@@ -53,6 +53,7 @@ pipeline {
                     }
                     steps {
                         sh 'cd PythonCheese nohup python3 main.py > log.txt 2>&1 &'
+                        input message: 'Finished using the web site? (Click "Proceed" to continue)'
                     }
                 }
             }
