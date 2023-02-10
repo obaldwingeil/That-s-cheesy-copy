@@ -58,16 +58,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            echo 'The pipeline completed'
-        }
-        success {                   
-            echo "Flask Application Up and running!!"
-        }
-        failure {
-            echo 'Build stage failed'
-            error('Stopping early…')
-        }
-    }
 }
