@@ -39,7 +39,7 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'cd PythonCheese nohup python3 main.py > log.txt 2>&1 &'
+                        sh 'cd PythonCheese python3 main.py'
                     }
                 }
             }
