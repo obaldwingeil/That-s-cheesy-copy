@@ -1,5 +1,5 @@
 FROM python:3.9
-ADD main.py .
+ADD PythonCheese/main.py .
 
 COPY ./requirements.txt /app/requirements.txt
 
