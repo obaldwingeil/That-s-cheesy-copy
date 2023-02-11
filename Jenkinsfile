@@ -54,8 +54,6 @@ pipeline {
                         sh 'cd PythonCheese'
                         sh 'docker build -f PythonCheese/Dockerfile -t cheesy-backend-jenkins .'
                         sh 'docker run -p 8000:8000 cheesy-backend-jenkins'
-                        input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                        sh 'docker stop cheesy-backend-jenkins'
                     }
                 }
             }
