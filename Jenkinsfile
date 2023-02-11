@@ -28,6 +28,11 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        stage('Test') {
+            steps {
+                sh 'npm test .'
+            }
+        }
         stage('Production') {
             parallel {
                 stage('Front-End') {
