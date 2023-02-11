@@ -1,7 +1,7 @@
 FROM python:3.9
 ADD PythonCheese/main.py .
 
-COPY ./requirements.txt /app/requirements.txt
+COPY PythonCheese/requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
