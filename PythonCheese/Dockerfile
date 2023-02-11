@@ -3,7 +3,7 @@ ADD PythonCheese/main.py .
 
 COPY PythonCheese/requirements.txt /app/requirements.txt
 
-WORKDIR /app
+WORKDIR /PythonCheese
 
 RUN pip3 install -r requirements.txt
 
