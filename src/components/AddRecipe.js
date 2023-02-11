@@ -26,7 +26,7 @@ export default function AddRecipe({ user_id }) {
   const navigate = useNavigate();
 
   const addrecipe = async () => {
-    const rawResponse = await fetch('http://127.0.0.1:8000/addrecipe', {
+    const rawResponse = await fetch('http://0.0.0.0:8000/addrecipe', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

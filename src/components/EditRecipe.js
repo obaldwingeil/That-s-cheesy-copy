@@ -45,7 +45,7 @@ class EditRecipe extends Component {
     componentDidMount() {
         const id = this.props.router.params.id;
         this.setState({ recipe_id: id });
-        fetch(`http://127.0.0.1:8000/recipe/${id}`, {
+        fetch(`http://0.0.0.0:8000/recipe/${id}`, {
             method: 'GET'
         })
         .then((response) => response.json())
@@ -68,7 +68,7 @@ class EditRecipe extends Component {
     }
 
     _getNotes(id) {
-        fetch(`http://127.0.0.1:8000/notes/${this.props.user_id}/${id}`, {
+        fetch(`http://0.0.0.0:8000/notes/${this.props.user_id}/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
@@ -116,7 +116,7 @@ class EditRecipe extends Component {
     }
 
     editRecipe(id) {
-        fetch(`http://127.0.0.1:8000/recipe/edit/${id}`, {
+        fetch(`http://0.0.0.0:8000/recipe/edit/${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -139,7 +139,7 @@ class EditRecipe extends Component {
     }
 
     updateNotes() {
-        fetch(`http://127.0.0.1:8000//notes/update-note/${this.props.user_id}/${this.state.recipe_id}`, {
+        fetch(`http://0.0.0.0:8000//notes/update-note/${this.props.user_id}/${this.state.recipe_id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

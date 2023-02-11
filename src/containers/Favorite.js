@@ -37,7 +37,7 @@ export default function Favorite({ user_id, recipe_id }) {
     }
 
     function _getCounter(id) {
-        fetch(`http://127.0.0.1:8000/recipe/${id}`, {
+        fetch(`http://0.0.0.0:8000/recipe/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
@@ -51,7 +51,7 @@ export default function Favorite({ user_id, recipe_id }) {
     }
 
     function updateCounter(id, temp) {
-        fetch(`http://127.0.0.1:8000/recipe/edit/${id}`, {
+        fetch(`http://0.0.0.0:8000/recipe/edit/${id}`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -70,7 +70,7 @@ export default function Favorite({ user_id, recipe_id }) {
     };
 
     function _getFavorite(user_id, id) {
-        fetch(`http://127.0.0.1:8000/favorites/${user_id}/${id}`, {
+        fetch(`http://0.0.0.0:8000/favorites/${user_id}/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
@@ -83,7 +83,7 @@ export default function Favorite({ user_id, recipe_id }) {
     }
 
     function _toggleFavorite() {
-        fetch(`http://127.0.0.1:8000/favorite-recipe/${user_id}/${recipe_id}`, {
+        fetch(`http://0.0.0.0:8000/favorite-recipe/${user_id}/${recipe_id}`, {
             method: 'POST'
         })  
         .then((response) => response.json())

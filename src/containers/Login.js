@@ -10,7 +10,7 @@ export default function Login({ user_id, handleLogin }) {
   const navigate = useNavigate();
 
   const login = async () => {
-    fetch('http://127.0.0.1:8000/login', {
+    fetch('http://0.0.0.0:8000/login', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

@@ -42,8 +42,8 @@ class RecipeFull extends Component {
     }
 
     _getRecipe(id) {
-        // console.log(`http://127.0.0.1:8000/recipe/${id}`);
-        fetch(`http://127.0.0.1:8000/recipe/${id}`, {
+        // console.log(`http://0.0.0.0:8000/recipe/${id}`);
+        fetch(`http://0.0.0.0:8000/recipe/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
@@ -68,7 +68,7 @@ class RecipeFull extends Component {
     }
 
     _getNotes(user_id, id) {
-        fetch(`http://127.0.0.1:8000/notes/${user_id}/${id}`, {
+        fetch(`http://0.0.0.0:8000/notes/${user_id}/${id}`, {
             method: 'GET'
         })  
         .then((response) => response.json())
