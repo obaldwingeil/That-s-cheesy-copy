@@ -3,11 +3,11 @@ ADD PythonCheese/main.py .
 
 COPY PythonCheese/requirements.txt /app/requirements.txt
 
-WORKDIR /PythonCheese
-
 RUN pip3 install -r requirements.txt
 
 COPY . /app
+
+WORKDIR /PythonCheese
 
 ENTRYPOINT [ "python3" ]
 
