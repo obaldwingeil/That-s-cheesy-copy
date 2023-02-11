@@ -30,7 +30,7 @@ class RecipeListHolder extends Component {
                 this._getRecipes(`http://127.0.0.1:8000/favorites/${user_id}`);
             }
         } else {
-            this._getRecipes('http://127.0.0.1:8000/recipes');
+            this._getRecipes('http://0.0.0.0:8000/recipes');
         }
     }
 
