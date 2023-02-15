@@ -28,6 +28,17 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        stage('Test') {
+            agent {
+                docker {
+                    image 'node:lts-bullseye-slim' 
+                    args '-p 3000:3000'
+                }
+            }
+            steps {
+                sh 'npm test .'
+            }
+        }
         stage('Production') {
             parallel {
                 stage('Front-End') {
@@ -49,8 +60,6 @@ pipeline {
                         sh 'cd PythonCheese'
                         sh 'docker build -f PythonCheese/Dockerfile -t cheesy-backend-jenkins .'
                         sh 'docker run -p 8000:8000 cheesy-backend-jenkins'
-                        input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                        sh 'docker stop cheesy-backend-jenkins'
                     }
                 }
             }
