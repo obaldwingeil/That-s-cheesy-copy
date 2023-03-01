@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout Scm') {
             steps {
-                git(credentialsId: 'build-viacom-com-sa-github-token', url: 'https://github.com/obaldwingeil/That-s-cheesy-copy')
+                git(credentialsId: 'cheesy-token', url: 'https://github.com/obaldwingeil/That-s-cheesy-copy')
             }
         }
 
