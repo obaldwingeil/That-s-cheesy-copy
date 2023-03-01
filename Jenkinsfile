@@ -1,49 +1,29 @@
 pipeline {
-    agent any
+    agent {
+        node { 
+            label 'generic && (64GB || 16GB || 4GB)'
+        } 
+    }
+
+    parameters {
+        choice(name: 'BUCKET', choices: [via-umt-dev, via-umt-qa, via-umt-stage, via-umt-prod, cheesyawsbucket], description: "Target Bucket")
+        string(name: 'AWS_ACCESS_KEY_ID', defaultValue: '')
+        string(name: 'AWS_SECRET_ACCESS_KEY', defaultValue: '')
+    }
+
     stages {
-        stage('Build') { 
-                agent {
-                    docker {
-                        image 'node:lts-bullseye-slim' 
-                        args '-p 3000:3000'
-                    }
-                }
-                environment {
-                    CI = 'false npm run build'
-                }
+        stage('Checkout Scm') {
             steps {
-                sh 'npm install' 
+                git(credentialsId: 'build-viacom-com-sa-github-token', url: 'https://github.com/obaldwingeil/That-s-cheesy-copy')
             }
         }
-        stage('Run App') {
-            parallel {
-                stage('Run Backend') {
-                    agent {
-                        docker {
-                            image 'python:3.10.7-alpine'
-                            args '-p 8000:8000'
-                        }
-                    }
-                    steps {
-                        sh 'cd PythonCheese python3 main.py'
-                    }
-                }
-                stage('Run Front-End') {
-                    agent {
-                        docker {
-                            image 'node:lts-bullseye-slim' 
-                            args '-p 3000:3000'
-                        }
-                    }
-                    environment {
-                        CI = 'false npm run build'
-                    }
-                    steps {
-                        sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start &'
-                    }
-                }
-            }
 
+        stage('Copy Files to S3'){
+            steps {
+                sh '''
+                    aws s3 sync s3://$BUCKET .
+                '''
+            }
         }
     }
 }
